@@ -553,6 +553,12 @@ https://github.com/ThiagoIcochea/ServiciosCloudIAC
 ## Anexo C — Guía de ejecución local completa
 
 Ver `docs/user-guide/README.md` en el repositorio.
+
+## Anexo D — Guión de sustentación
+
+El guión de exposición (5–8 minutos), la demostración práctica en
+PowerShell y las preguntas y respuestas preparadas para la sustentación
+(Entregable 5) están en `docs/academic/guion-exposicion.md`.
 """)
 
     out_dir = DOCS / "academic"
