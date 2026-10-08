@@ -112,7 +112,6 @@ para un despliegue futuro con credenciales reales**.
 | [`docs/academic/matriz-trazabilidad.md`](docs/academic/matriz-trazabilidad.md) | Matriz requisito -> solucion -> herramienta -> prueba -> evidencia |
 | [`docs/academic/plan-de-pruebas.md`](docs/academic/plan-de-pruebas.md) | CP01-CP16 con resultados reales |
 | [`docs/user-guide/README.md`](docs/user-guide/README.md) | Guia de ejecucion local paso a paso |
-| [`docs/academic/guion-exposicion.md`](docs/academic/guion-exposicion.md) | Guion de sustentacion (5-8 min) + demo en vivo + preguntas y respuestas |
 
 El informe academico formal (Word/PDF, formato IEEE) esta en
 `docs/academic/` (ver seccion de entregables).
