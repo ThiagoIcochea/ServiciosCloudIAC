@@ -1,0 +1,110 @@
+name: Docker Lab (2 sucursales)
+
+# CP16 / laboratorio Docker (FASE III, seccion 10 del enunciado).
+#
+# El equipo de desarrollo de este proyecto no tiene Docker Desktop instalado
+# (ver lab/docker/README.md). Los runners "ubuntu-latest" de GitHub Actions
+# SI traen Docker Engine + Docker Compose preinstalados, por lo que este
+# workflow ejecuta el laboratorio real (4 contenedores, pruebas HTTP,
+# conectividad interna y aislamiento de red) sin depender del equipo local
+# ni requerir ningun cambio de configuracion de Windows.
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "lab/docker/**"
+      - ".github/workflows/docker-lab.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "lab/docker/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  docker-lab:
+    name: Laboratorio Docker - 2 sucursales
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab/docker
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version de Docker y Docker Compose (evidencia del entorno)
+        run: |
+          docker version
+          docker compose version
+
+      - name: docker compose up -d
+        run: docker compose up -d
+
+      - name: Esperar a que los 4 contenedores esten healthy
+        run: |
+          for i in $(seq 1 30); do
+            unhealthy=$(docker compose ps --format '{{.Name}} {{.Health}}' | grep -v healthy || true)
+            if [ -z "$unhealthy" ]; then
+              echo "Los 4 contenedores estan healthy."
+              break
+            fi
+            echo "Esperando healthchecks... ($i/30)"
+            sleep 2
+          done
+          docker compose ps
+
+      - name: Pruebas HTTP (los 4 servidores)
+        run: |
+          set -e
+          for target in "suc01-web01:8081" "suc01-app01:8082" "suc02-web01:8091" "suc02-app01:8092"; do
+            name="${target%%:*}"
+            port="${target##*:}"
+            echo "--- HTTP $name (puerto $port) ---"
+            code=$(curl -sS -o /tmp/resp.html -w "%{http_code}" "http://localhost:${port}")
+            cat /tmp/resp.html
+            echo ""
+            echo "status=$code"
+            if [ "$code" != "200" ]; then
+              echo "::error::HTTP $name devolvio $code (se esperaba 200)"
+              exit 1
+            fi
+          done
+
+      - name: Conectividad interna (misma sucursal)
+        run: |
+          set -e
+          echo "--- suc01-web01 -> suc01-app01 ---"
+          docker exec suc01-web01 wget -qO- --timeout=3 http://suc01-app01
+          echo ""
+          echo "--- suc02-web01 -> suc02-app01 ---"
+          docker exec suc02-web01 wget -qO- --timeout=3 http://suc02-app01
+          echo ""
+          echo "OK: conectividad interna confirmada en ambas sucursales."
+
+      - name: Aislamiento de red (entre sucursales, debe fallar)
+        run: |
+          echo "--- suc01-web01 -> suc02-web01 (se espera fallo) ---"
+          if docker exec suc01-web01 wget -qO- --timeout=3 http://suc02-web01 2>&1; then
+            echo "::error::suc01-web01 pudo alcanzar suc02-web01: NO hay aislamiento de red (fallo de la prueba)"
+            exit 1
+          else
+            echo "OK: suc01-web01 NO pudo alcanzar suc02-web01 (aislamiento confirmado, exit=$?)"
+          fi
+
+          echo "--- suc02-web01 -> suc01-web01 (se espera fallo) ---"
+          if docker exec suc02-web01 wget -qO- --timeout=3 http://suc01-web01 2>&1; then
+            echo "::error::suc02-web01 pudo alcanzar suc01-web01: NO hay aislamiento de red (fallo de la prueba)"
+            exit 1
+          else
+            echo "OK: suc02-web01 NO pudo alcanzar suc01-web01 (aislamiento confirmado, exit=$?)"
+          fi
+
+      - name: Logs de los contenedores (evidencia)
+        if: always()
+        run: docker compose logs
+
+      - name: docker compose down -v (limpieza)
+        if: always()
+        run: docker compose down -v
