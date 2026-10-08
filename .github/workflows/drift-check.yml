@@ -35,7 +35,10 @@ jobs:
 
       - name: terraform init
         working-directory: lab/drift
-        run: terraform init -backend=false
+        # Sin -backend=false: este laboratorio declara backend "local"
+        # explicitamente (sin credenciales ni backend remoto), por lo que
+        # SI necesita inicializarse para poder usar el backend local.
+        run: terraform init
 
       - name: terraform apply (crea el recurso gestionado)
         working-directory: lab/drift
