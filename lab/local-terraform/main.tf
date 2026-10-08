@@ -39,10 +39,10 @@ resource "local_file" "sucursal_state_demo" {
 
   filename = "${path.module}/output/${each.value}.json"
   content = jsonencode({
-    sucursal_id    = each.value
-    deployment_id  = random_id.deployment.hex
-    managed_by     = "terraform"
-    estado         = "activo"
+    sucursal_id   = each.value
+    deployment_id = random_id.deployment.hex
+    managed_by    = "terraform"
+    estado        = "activo"
   })
 }
 

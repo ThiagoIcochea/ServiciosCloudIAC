@@ -4,9 +4,9 @@
 mock_provider "google" {}
 
 variables {
-  name                  = "suc-002"
-  zone                  = "southamerica-east1-a"
-  subnetwork_self_link  = "https://mock/subnetworks/suc-002-subnet"
+  name                 = "suc-002"
+  zone                 = "southamerica-east1-a"
+  subnetwork_self_link = "https://mock/subnetworks/suc-002-subnet"
   servers = [
     { name = "web-002", role = "web", size = "small" },
     { name = "app-002", role = "app", size = "small" },

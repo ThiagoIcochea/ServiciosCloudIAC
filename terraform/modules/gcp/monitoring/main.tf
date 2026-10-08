@@ -3,6 +3,12 @@
 # instancias de la sucursal (RF-04), equivalente funcional de la alarma de
 # CloudWatch del modulo aws/monitoring.
 
+locals {
+  # GCP user_labels: solo minusculas, numeros, guiones y guion bajo (misma
+  # restriccion que modules/gcp/compute).
+  safe_labels = { for k, v in var.tags : lower(k) => lower(replace(v, "/[^a-zA-Z0-9_-]/", "-")) }
+}
+
 resource "google_monitoring_alert_policy" "cpu_high" {
   count = var.enabled ? 1 : 0
 
@@ -28,5 +34,7 @@ resource "google_monitoring_alert_policy" "cpu_high" {
 
   notification_channels = var.notification_channels
 
-  user_labels = var.tags
+  user_labels = merge(local.safe_labels, {
+    retention_days_hint = tostring(var.retention_days)
+  })
 }
