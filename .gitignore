@@ -42,6 +42,9 @@ Thumbs.db
 .vscode/
 *.swp
 
+# Claude Code harness session files (not part of the project)
+.claude/
+
 # Evidence working files that are regenerated locally (keep curated evidence only)
 docs/evidence/_raw/
 
