@@ -101,6 +101,10 @@ jobs:
             echo "OK: suc02-web01 NO pudo alcanzar suc01-web01 (aislamiento confirmado, exit=$?)"
           fi
 
+      - name: Monitoreo local (lab/monitoring/healthcheck_monitor.py)
+        working-directory: lab/monitoring
+        run: python3 healthcheck_monitor.py --iterations 3 --interval 5
+
       - name: Logs de los contenedores (evidencia)
         if: always()
         run: docker compose logs
@@ -108,3 +112,10 @@ jobs:
       - name: docker compose down -v (limpieza)
         if: always()
         run: docker compose down -v
+
+      - name: Publicar evidencia (monitoreo)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-lab-monitoring-evidence
+          path: docs/evidence/monitoring/

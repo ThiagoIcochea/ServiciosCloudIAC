@@ -175,6 +175,36 @@ Resultado esperado, Resultado obtenido, Estado, Evidencia.
 - **Estado**: APROBADA.
 - **Evidencia**: `docs/evidence/scalability/`.
 
+## Laboratorio Docker — ejecucion real (GitHub Actions)
+
+- **Objetivo**: ejecutar realmente el laboratorio de 2 sucursales (4
+  contenedores, pruebas HTTP, conectividad interna, aislamiento de red),
+  dado que el equipo de desarrollo local no tiene Docker Desktop instalado.
+- **Procedimiento**: se creo `.github/workflows/docker-lab.yml`, que corre
+  en un runner `ubuntu-latest` de GitHub Actions (estos runners traen
+  Docker Engine + Docker Compose preinstalados de fabrica). El workflow
+  levanta los 4 contenedores, espera los healthchecks, prueba HTTP en los 4
+  puertos publicados, prueba conectividad interna (`web` <-> `app` dentro
+  de cada sucursal) y prueba aislamiento de red entre `sucursal-01-net` y
+  `sucursal-02-net`, y finalmente limpia con `docker compose down -v`.
+- **Resultado obtenido** (run real, 36s, exitoso):
+  - Los 4 contenedores llegaron a estado `healthy`.
+  - Las 4 pruebas HTTP devolvieron `status=200`.
+  - Conectividad interna confirmada en ambas sucursales.
+  - Aislamiento de red confirmado en ambas direcciones
+    (`suc01-web01 -> suc02-web01` y `suc02-web01 -> suc01-web01`, ambas con
+    `exit=1`, es decir, sin acceso).
+  - `docker compose down -v` se ejecuto sin errores.
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/docker-lab/docker-lab-github-actions-run37832592874.log`
+  (log completo real) y run
+  https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions/runs/37832592874.
+- **Nota honesta**: esta ejecucion ocurrio en un runner Linux de GitHub
+  Actions, no en el equipo Windows de desarrollo (que sigue sin Docker
+  Desktop operativo porque WSL2 requiere un reinicio de Windows que el
+  usuario pidio no realizar). El codigo del laboratorio (`docker-compose.yml`,
+  scripts) es identico en ambos casos; lo unico que cambia es donde corrio.
+
 ## CP16 — Limpieza del laboratorio
 
 - **Objetivo**: confirmar que `scripts/cleanup.ps1` / `lab/drift/cleanup.ps1`
@@ -182,8 +212,13 @@ Resultado esperado, Resultado obtenido, Estado, Evidencia.
 - **Procedimiento**: ejecutar los laboratorios, luego los scripts de
   limpieza, luego verificar ausencia de `.terraform/`, `terraform.tfstate*`
   y contenedores Docker activos.
-- **Estado**: BLOQUEADA (parcial) — la limpieza de los laboratorios
-  Terraform (`lab/drift`, `lab/local-terraform`) es APROBADA; la limpieza
-  del laboratorio Docker (`lab/docker/stop.ps1`) queda BLOQUEADA porque
-  Docker Desktop no esta instalado en el equipo de desarrollo (ver
-  `lab/docker/README.md`). No se afirma que esta parte fue probada.
+- **Resultado obtenido**: limpieza de los laboratorios Terraform
+  (`lab/drift`, `lab/local-terraform`) verificada localmente; limpieza del
+  laboratorio Docker (`docker compose down -v`) verificada en el run de
+  GitHub Actions descrito arriba (paso final, `if: always()`, sin errores).
+- **Estado**: APROBADA.
+- **Nota**: `lab/docker/stop.ps1` (el script equivalente para ejecucion
+  local con Docker Desktop) sigue sin probarse en el equipo de desarrollo
+  local por la misma razon (Docker Desktop instalado pero no operativo sin
+  reiniciar Windows); la limpieza en si misma (`docker compose down -v`) ya
+  quedo demostrada en CI.
