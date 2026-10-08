@@ -1,0 +1,174 @@
+# Plan de pruebas
+
+Formato por caso: Identificador, Objetivo, Precondiciones, Procedimiento,
+Resultado esperado, Resultado obtenido, Estado, Evidencia.
+
+> **Estado** usa 4 valores: `APROBADA` (se ejecuto y paso), `FALLIDA` (se
+> ejecuto, fallo, se corrigio y se re-ejecuto — ver columna Resultado
+> obtenido para el historial), `BLOQUEADA` (no se pudo ejecutar por una
+> dependencia externa, documentada) o `PENDIENTE` (no ejecutada aun). Nunca
+> se marca `APROBADA` sin ejecucion real.
+
+## CP01 — Validacion sintactica de Terraform
+
+- **Objetivo**: confirmar que todo el codigo Terraform del proyecto es
+  sintacticamente valido y esta correctamente formateado.
+- **Precondiciones**: Terraform CLI 1.9.8 disponible (`tools/terraform.exe`).
+- **Procedimiento**: `terraform fmt -check -recursive terraform/`;
+  `terraform init -backend=false` + `terraform validate` en
+  `terraform/environments/{development,staging,production}`.
+- **Resultado esperado**: `fmt` sin cambios pendientes; `validate` reporta
+  "Success! The configuration is valid." en los 3 entornos.
+- **Resultado obtenido**: `fmt -recursive` reformateo 4 archivos en la
+  primera corrida (alineacion de `=`); tras `fmt`, `validate` fue exitoso en
+  `production` (40 sucursales), `staging` (6) y `development` (4).
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/terraform-validate/`.
+
+## CP02 — Validacion de modulos AWS
+
+- **Objetivo**: verificar que los 4 modulos AWS (`network`, `compute`,
+  `security`, `monitoring`) generan la configuracion esperada.
+- **Precondiciones**: `mock_provider "aws" {}` disponible (Terraform >= 1.7).
+- **Procedimiento**: `terraform test` sobre `aws_network.tftest.hcl`,
+  `aws_compute.tftest.hcl`, `aws_security.tftest.hcl`,
+  `aws_monitoring.tftest.hcl`.
+- **Resultado esperado**: todos los `run` en `pass`.
+- **Resultado obtenido**: 1 fallo real detectado y corregido —
+  `aws_route_table.this.route[0]` no es valido porque `route` es un `set`
+  (sin indice); se corrigio a `anytrue([for r in ... : r.cidr_block == ...])`
+  y se re-ejecuto. Resto de los `run` en `pass` desde la primera corrida.
+- **Estado**: APROBADA (tras correccion).
+- **Evidencia**: `docs/evidence/terraform-test/`.
+
+## CP03 — Validacion de modulos GCP
+
+- **Objetivo**: verificar que los 4 modulos GCP generan la configuracion
+  esperada.
+- **Precondiciones**: `mock_provider "google" {}`.
+- **Procedimiento**: `terraform test` sobre `gcp_network.tftest.hcl`,
+  `gcp_compute.tftest.hcl`, `gcp_security.tftest.hcl`,
+  `gcp_monitoring.tftest.hcl`.
+- **Resultado esperado**: todos los `run` en `pass`.
+- **Resultado obtenido**: ver `docs/evidence/terraform-test/`.
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/terraform-test/`.
+
+## CP04 — Configuracion de 50 sucursales
+
+- **Objetivo**: confirmar que existen exactamente 50 sucursales definidas y
+  que el modulo `branch-stack` las procesa correctamente por entorno.
+- **Procedimiento**: `python scripts/validate_branches_schema.py`;
+  `terraform test` sobre `branch_stack.tftest.hcl`.
+- **Resultado esperado**: 50 sucursales totales (40 production + 6 staging +
+  4 development), 25 AWS / 25 GCP.
+- **Resultado obtenido**: confirmado por ambos mecanismos (Python y
+  Terraform test), de forma independiente.
+- **Estado**: APROBADA.
+- **Evidencia**: salida de ambos comandos en `docs/evidence/`.
+
+## CP05 — Dos servidores por sucursal
+
+- **Procedimiento**: aserciones `length(aws_instance.this) == 2` /
+  `length(google_compute_instance.this) == 2` en `aws_compute.tftest.hcl` /
+  `gcp_compute.tftest.hcl`; verificacion independiente en
+  `validate_branches_schema.py` sobre las 50 entradas de `branches.yaml`.
+- **Estado**: APROBADA.
+
+## CP06 — Redes independientes
+
+- **Procedimiento**: aserciones sobre CIDR unico por sucursal en
+  `aws_network.tftest.hcl` / `gcp_network.tftest.hcl`; verificacion de CIDR
+  valido y no colisionante por diseno (`scripts/generate_branches.py` deriva
+  el CIDR del indice de la sucursal) en `validate_branches_schema.py`.
+- **Estado**: APROBADA.
+
+## CP07 — Reglas de seguridad
+
+- **Procedimiento**: aserciones de numero y contenido de reglas en
+  `aws_security.tftest.hcl` / `gcp_security.tftest.hcl`.
+- **Estado**: APROBADA.
+
+## CP08 — Configuracion de monitoreo
+
+- **Procedimiento**: aserciones sobre `aws_cloudwatch_log_group` /
+  `google_monitoring_alert_policy` en `aws_monitoring.tftest.hcl` /
+  `gcp_monitoring.tftest.hcl`.
+- **Estado**: APROBADA.
+
+## CP09 — Pruebas con mock_provider
+
+- **Objetivo**: confirmar que la estrategia de pruebas sin credenciales
+  (`mock_provider`) funciona end-to-end.
+- **Resultado obtenido**: las 9 suites de `terraform/tests/*.tftest.hcl` se
+  ejecutaron con `mock_provider "aws" {}` y `mock_provider "google" {}`, sin
+  ninguna llamada de red a AWS/GCP.
+- **Estado**: APROBADA.
+
+## CP10 — Ejecucion de GitHub Actions
+
+- **Objetivo**: confirmar que `terraform-ci.yml`, `terraform-security.yml` y
+  `drift-check.yml` se ejecutan correctamente en GitHub Actions tras el
+  push.
+- **Procedimiento**: revisar la pestana "Actions" del repositorio publicado
+  tras el primer push.
+- **Estado**: PENDIENTE hasta la publicacion autorizada del repositorio (ver
+  seccion 18 del enunciado). Se actualizara con el resultado real y un
+  enlace al run tras el push.
+
+## CP11 — Verificacion de secretos
+
+- **Procedimiento**: `git ls-files | grep -E '\.tfstate|\.pem$|\.key$'`
+  (debe no retornar nada); revision manual de `.gitignore`; `gitleaks`
+  ejecutado en CI.
+- **Resultado obtenido**: 0 coincidencias encontradas localmente.
+- **Estado**: APROBADA (verificacion local); se reconfirmara con el run de
+  `terraform-security.yml` en GitHub Actions.
+
+## CP12 — Consulta de Terraform State
+
+- **Procedimiento**: `lab/local-terraform/run_state_demo.ps1`
+  (`terraform state list`, `terraform show`).
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/state/`.
+
+## CP13 — Deteccion de Infrastructure Drift
+
+- **Procedimiento**: `lab/drift/run_drift_demo.ps1` — modificacion manual
+  del archivo gestionado y `terraform plan` posterior.
+- **Resultado esperado**: `terraform plan` reporta un cambio pendiente
+  (el contenido declarado difiere del real).
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/drift/`.
+
+## CP14 — Reconciliacion de Drift
+
+- **Procedimiento**: `terraform apply` posterior al `plan` del CP13, que
+  revierte el archivo al contenido declarado en el codigo.
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/drift/` (mismo log que CP13, pasos 8-9).
+
+## CP15 — Incorporacion de una nueva sucursal
+
+- **Objetivo**: demostrar que agregar una sucursal es un cambio de datos.
+- **Procedimiento**: agregar una entrada de prueba a
+  `scripts/generate_branches.py` (`TOTAL_SUCURSALES = 51`), regenerar
+  `branches.yaml`, ejecutar `validate_branches_schema.py` y
+  `terraform test` sobre `branch_stack.tftest.hcl` (ajustando el valor
+  esperado temporalmente), confirmar que ningun archivo `.tf` cambio, y
+  revertir.
+- **Estado**: APROBADA.
+- **Evidencia**: `docs/evidence/scalability/`.
+
+## CP16 — Limpieza del laboratorio
+
+- **Objetivo**: confirmar que `scripts/cleanup.ps1` / `lab/drift/cleanup.ps1`
+  dejan el entorno sin artefactos residuales (estado, contenedores).
+- **Procedimiento**: ejecutar los laboratorios, luego los scripts de
+  limpieza, luego verificar ausencia de `.terraform/`, `terraform.tfstate*`
+  y contenedores Docker activos.
+- **Estado**: BLOQUEADA (parcial) — la limpieza de los laboratorios
+  Terraform (`lab/drift`, `lab/local-terraform`) es APROBADA; la limpieza
+  del laboratorio Docker (`lab/docker/stop.ps1`) queda BLOQUEADA porque
+  Docker Desktop no esta instalado en el equipo de desarrollo (ver
+  `lab/docker/README.md`). No se afirma que esta parte fue probada.

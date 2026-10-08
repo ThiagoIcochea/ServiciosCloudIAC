@@ -1,0 +1,407 @@
+﻿
+
+===== 1. Inicializacion - terraform init =====
+[0m[1mInitializing provider plugins...[0m
+- Reusing previous version of hashicorp/random from the dependency lock file
+- Reusing previous version of hashicorp/local from the dependency lock file
+- Using previously-installed hashicorp/random v3.9.1
+- Using previously-installed hashicorp/local v2.9.1
+
+[0m[1m[32mTerraform has been successfully initialized![0m[32m[0m
+[0m[32m
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.[0m
+
+
+
+===== 2. Creacion de recursos locales - terraform apply =====
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # local_file.sucursal_state_demo["suc-001"][0m will be created
+[0m  [32m+[0m[0m resource "local_file" "sucursal_state_demo" {
+      [32m+[0m[0m content              = (known after apply)
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0777"
+      [32m+[0m[0m filename             = "./output/suc-001.json"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1m  # local_file.sucursal_state_demo["suc-002"][0m will be created
+[0m  [32m+[0m[0m resource "local_file" "sucursal_state_demo" {
+      [32m+[0m[0m content              = (known after apply)
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0777"
+      [32m+[0m[0m filename             = "./output/suc-002.json"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1m  # random_id.deployment[0m will be created
+[0m  [32m+[0m[0m resource "random_id" "deployment" {
+      [32m+[0m[0m b64_std     = (known after apply)
+      [32m+[0m[0m b64_url     = (known after apply)
+      [32m+[0m[0m byte_length = 4
+      [32m+[0m[0m dec         = (known after apply)
+      [32m+[0m[0m hex         = (known after apply)
+      [32m+[0m[0m id          = (known after apply)
+    }
+
+[1mPlan:[0m 3 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m deployment_id          = (known after apply)
+  [32m+[0m[0m sucursales_desplegadas = [
+      [32m+[0m[0m "suc-001",
+      [32m+[0m[0m "suc-002",
+    ]
+[0m[1mrandom_id.deployment: Creating...[0m[0m
+[0m[1mrandom_id.deployment: Creation complete after 0s [id=CE97EA][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Creating...[0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Creating...[0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Creation complete after 1s [id=5be95ab67bdb5d75029687ffc6eb3c94da8af5c7][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Creation complete after 1s [id=3d1c816985c9d76d106b03c4013dd27cd074f01b][0m
+[0m[1m[32m
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mdeployment_id = "084f7b10"
+sucursales_desplegadas = [
+  "suc-001",
+  "suc-002",
+]
+
+
+
+===== 3. Consulta del estado - terraform state list =====
+local_file.sucursal_state_demo["suc-001"]
+local_file.sucursal_state_demo["suc-002"]
+random_id.deployment
+
+
+
+===== 4. Consulta del estado - terraform show =====
+# local_file.sucursal_state_demo["suc-001"]:
+resource "local_file" "sucursal_state_demo" {
+    content              = jsonencode(
+        {
+            deployment_id = "084f7b10"
+            estado        = "activo"
+            managed_by    = "terraform"
+            sucursal_id   = "suc-001"
+        }
+    )
+    content_base64sha256 = "lvR+fPON+EE1psjkrisRoLdlwHjQIWDBs9252+LQ48I="
+    content_base64sha512 = "5JX6abJizRKlBAR4qbsKkR+aUK7M6bXeZiWUz0YcS47YFj1++C6hQc6cjFpnzfJEH0XEYDxjvS0nU6wJtwWl/A=="
+    content_md5          = "1ac4cb68e3cb8f2e530a7d6f0d413482"
+    content_sha1         = "3d1c816985c9d76d106b03c4013dd27cd074f01b"
+    content_sha256       = "96f47e7cf38df84135a6c8e4ae2b11a0b765c078d02160c1b3ddb9dbe2d0e3c2"
+    content_sha512       = "e495fa69b262cd12a5040478a9bb0a911f9a50aecce9b5de662594cf461c4b8ed8163d7ef82ea141ce9c8c5a67cdf2441f45c4603c63bd2d2753ac09b705a5fc"
+    directory_permission = "0777"
+    file_permission      = "0777"
+    filename             = "./output/suc-001.json"
+    id                   = "3d1c816985c9d76d106b03c4013dd27cd074f01b"
+}
+
+# local_file.sucursal_state_demo["suc-002"]:
+resource "local_file" "sucursal_state_demo" {
+    content              = jsonencode(
+        {
+            deployment_id = "084f7b10"
+            estado        = "activo"
+            managed_by    = "terraform"
+            sucursal_id   = "suc-002"
+        }
+    )
+    content_base64sha256 = "ffz87RuMDDIelJ0y3TaXrNF3UGTF4aPbqfANdSOdN+g="
+    content_base64sha512 = "zufzfwEaCFgjjpf6yG+1UbWXEU58/eQSBMu0XrG4kmEJPbfcKxDhUFPpFw2R4x3P7N2v0oflSwLRJYJW8FR2sw=="
+    content_md5          = "1da8f28d607e5bc2f562fb109288e42c"
+    content_sha1         = "5be95ab67bdb5d75029687ffc6eb3c94da8af5c7"
+    content_sha256       = "7dfcfced1b8c0c321e949d32dd3697acd1775064c5e1a3dba9f00d75239d37e8"
+    content_sha512       = "cee7f37f011a0858238e97fac86fb551b597114e7cfde41204cbb45eb1b89261093db7dc2b10e15053e9170d91e31dcfecddafd287e54b02d1258256f05476b3"
+    directory_permission = "0777"
+    file_permission      = "0777"
+    filename             = "./output/suc-002.json"
+    id                   = "5be95ab67bdb5d75029687ffc6eb3c94da8af5c7"
+}
+
+# random_id.deployment:
+resource "random_id" "deployment" {
+    b64_std     = "CE97EA=="
+    b64_url     = "CE97EA"
+    byte_length = 4
+    dec         = "139426576"
+    hex         = "084f7b10"
+    id          = "CE97EA"
+}
+
+
+Outputs:
+
+deployment_id = "084f7b10"
+sucursales_desplegadas = [
+    "suc-001",
+    "suc-002",
+]
+
+
+
+===== 5. Modificacion de configuracion (se agrega suc-003) =====
+
+> variable "sucursales_demo" {
+    description = "Subconjunto de sucursales representadas en este laboratorio local de estado."
+>   for_each = toset(var.sucursales_demo)
+  
+
+
+
+
+
+===== 6. Planificacion de cambios - terraform plan =====
+[0m[1mrandom_id.deployment: Refreshing state... [id=CE97EA][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Refreshing state... [id=3d1c816985c9d76d106b03c4013dd27cd074f01b][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Refreshing state... [id=5be95ab67bdb5d75029687ffc6eb3c94da8af5c7][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # local_file.sucursal_state_demo["suc-003"][0m will be created
+[0m  [32m+[0m[0m resource "local_file" "sucursal_state_demo" {
+      [32m+[0m[0m content              = jsonencode(
+            {
+              [32m+[0m[0m deployment_id = "084f7b10"
+              [32m+[0m[0m estado        = "activo"
+              [32m+[0m[0m managed_by    = "terraform"
+              [32m+[0m[0m sucursal_id   = "suc-003"
+            }
+        )
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0777"
+      [32m+[0m[0m filename             = "./output/suc-003.json"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [33m~[0m[0m sucursales_desplegadas = [
+        [90m# (1 unchanged element hidden)[0m[0m
+        "suc-002",
+      [32m+[0m[0m "suc-003",
+    ]
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
+
+
+
+===== 7. Actualizacion controlada - terraform apply =====
+[0m[1mrandom_id.deployment: Refreshing state... [id=CE97EA][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Refreshing state... [id=5be95ab67bdb5d75029687ffc6eb3c94da8af5c7][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Refreshing state... [id=3d1c816985c9d76d106b03c4013dd27cd074f01b][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # local_file.sucursal_state_demo["suc-003"][0m will be created
+[0m  [32m+[0m[0m resource "local_file" "sucursal_state_demo" {
+      [32m+[0m[0m content              = jsonencode(
+            {
+              [32m+[0m[0m deployment_id = "084f7b10"
+              [32m+[0m[0m estado        = "activo"
+              [32m+[0m[0m managed_by    = "terraform"
+              [32m+[0m[0m sucursal_id   = "suc-003"
+            }
+        )
+      [32m+[0m[0m content_base64sha256 = (known after apply)
+      [32m+[0m[0m content_base64sha512 = (known after apply)
+      [32m+[0m[0m content_md5          = (known after apply)
+      [32m+[0m[0m content_sha1         = (known after apply)
+      [32m+[0m[0m content_sha256       = (known after apply)
+      [32m+[0m[0m content_sha512       = (known after apply)
+      [32m+[0m[0m directory_permission = "0777"
+      [32m+[0m[0m file_permission      = "0777"
+      [32m+[0m[0m filename             = "./output/suc-003.json"
+      [32m+[0m[0m id                   = (known after apply)
+    }
+
+[1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [33m~[0m[0m sucursales_desplegadas = [
+        [90m# (1 unchanged element hidden)[0m[0m
+        "suc-002",
+      [32m+[0m[0m "suc-003",
+    ]
+[0m[1mlocal_file.sucursal_state_demo["suc-003"]: Creating...[0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-003"]: Creation complete after 0s [id=d6dcd379ca22ac9ba41d1cd3f8235f4c721b43c8][0m
+[0m[1m[32m
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0mdeployment_id = "084f7b10"
+sucursales_desplegadas = [
+  "suc-001",
+  "suc-002",
+  "suc-003",
+]
+
+
+
+===== 8. Verificacion - terraform state list (deberia incluir suc-003) =====
+local_file.sucursal_state_demo["suc-001"]
+local_file.sucursal_state_demo["suc-002"]
+local_file.sucursal_state_demo["suc-003"]
+random_id.deployment
+
+
+
+===== 9. Eliminacion de recursos de prueba - terraform destroy =====
+[0m[1mrandom_id.deployment: Refreshing state... [id=CE97EA][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Refreshing state... [id=3d1c816985c9d76d106b03c4013dd27cd074f01b][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-003"]: Refreshing state... [id=d6dcd379ca22ac9ba41d1cd3f8235f4c721b43c8][0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Refreshing state... [id=5be95ab67bdb5d75029687ffc6eb3c94da8af5c7][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [31m-[0m destroy[0m
+
+Terraform will perform the following actions:
+
+[1m  # local_file.sucursal_state_demo["suc-001"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "local_file" "sucursal_state_demo" {
+      [31m-[0m[0m content              = jsonencode(
+            {
+              [31m-[0m[0m deployment_id = "084f7b10"
+              [31m-[0m[0m estado        = "activo"
+              [31m-[0m[0m managed_by    = "terraform"
+              [31m-[0m[0m sucursal_id   = "suc-001"
+            }
+        ) [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha256 = "lvR+fPON+EE1psjkrisRoLdlwHjQIWDBs9252+LQ48I=" [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha512 = "5JX6abJizRKlBAR4qbsKkR+aUK7M6bXeZiWUz0YcS47YFj1++C6hQc6cjFpnzfJEH0XEYDxjvS0nU6wJtwWl/A==" [90m-> null[0m[0m
+      [31m-[0m[0m content_md5          = "1ac4cb68e3cb8f2e530a7d6f0d413482" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha1         = "3d1c816985c9d76d106b03c4013dd27cd074f01b" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha256       = "96f47e7cf38df84135a6c8e4ae2b11a0b765c078d02160c1b3ddb9dbe2d0e3c2" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha512       = "e495fa69b262cd12a5040478a9bb0a911f9a50aecce9b5de662594cf461c4b8ed8163d7ef82ea141ce9c8c5a67cdf2441f45c4603c63bd2d2753ac09b705a5fc" [90m-> null[0m[0m
+      [31m-[0m[0m directory_permission = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m file_permission      = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m filename             = "./output/suc-001.json" [90m-> null[0m[0m
+      [31m-[0m[0m id                   = "3d1c816985c9d76d106b03c4013dd27cd074f01b" [90m-> null[0m[0m
+    }
+
+[1m  # local_file.sucursal_state_demo["suc-002"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "local_file" "sucursal_state_demo" {
+      [31m-[0m[0m content              = jsonencode(
+            {
+              [31m-[0m[0m deployment_id = "084f7b10"
+              [31m-[0m[0m estado        = "activo"
+              [31m-[0m[0m managed_by    = "terraform"
+              [31m-[0m[0m sucursal_id   = "suc-002"
+            }
+        ) [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha256 = "ffz87RuMDDIelJ0y3TaXrNF3UGTF4aPbqfANdSOdN+g=" [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha512 = "zufzfwEaCFgjjpf6yG+1UbWXEU58/eQSBMu0XrG4kmEJPbfcKxDhUFPpFw2R4x3P7N2v0oflSwLRJYJW8FR2sw==" [90m-> null[0m[0m
+      [31m-[0m[0m content_md5          = "1da8f28d607e5bc2f562fb109288e42c" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha1         = "5be95ab67bdb5d75029687ffc6eb3c94da8af5c7" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha256       = "7dfcfced1b8c0c321e949d32dd3697acd1775064c5e1a3dba9f00d75239d37e8" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha512       = "cee7f37f011a0858238e97fac86fb551b597114e7cfde41204cbb45eb1b89261093db7dc2b10e15053e9170d91e31dcfecddafd287e54b02d1258256f05476b3" [90m-> null[0m[0m
+      [31m-[0m[0m directory_permission = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m file_permission      = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m filename             = "./output/suc-002.json" [90m-> null[0m[0m
+      [31m-[0m[0m id                   = "5be95ab67bdb5d75029687ffc6eb3c94da8af5c7" [90m-> null[0m[0m
+    }
+
+[1m  # local_file.sucursal_state_demo["suc-003"][0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "local_file" "sucursal_state_demo" {
+      [31m-[0m[0m content              = jsonencode(
+            {
+              [31m-[0m[0m deployment_id = "084f7b10"
+              [31m-[0m[0m estado        = "activo"
+              [31m-[0m[0m managed_by    = "terraform"
+              [31m-[0m[0m sucursal_id   = "suc-003"
+            }
+        ) [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha256 = "NrvimySnzDDvYD68M7gZPIVcEtCdBOXhG3ydVBBgo88=" [90m-> null[0m[0m
+      [31m-[0m[0m content_base64sha512 = "CwGYV2IxB/UOg183r6lGMlSRPB/uyxx3UnAC8HH5/N3Sf3iS1eWjm4W30youzwZqkbcJ0Sa9cCiA5Fpe3A1ykQ==" [90m-> null[0m[0m
+      [31m-[0m[0m content_md5          = "0eb44c8571175c5f44b83dbccee4ccd4" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha1         = "d6dcd379ca22ac9ba41d1cd3f8235f4c721b43c8" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha256       = "36bbe29b24a7cc30ef603ebc33b8193c855c12d09d04e5e11b7c9d541060a3cf" [90m-> null[0m[0m
+      [31m-[0m[0m content_sha512       = "0b019857623107f50e835f37afa9463254913c1feecb1c77527002f071f9fcddd27f7892d5e5a39b85b7d32a2ecf066a91b709d126bd702880e45a5edc0d7291" [90m-> null[0m[0m
+      [31m-[0m[0m directory_permission = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m file_permission      = "0777" [90m-> null[0m[0m
+      [31m-[0m[0m filename             = "./output/suc-003.json" [90m-> null[0m[0m
+      [31m-[0m[0m id                   = "d6dcd379ca22ac9ba41d1cd3f8235f4c721b43c8" [90m-> null[0m[0m
+    }
+
+[1m  # random_id.deployment[0m will be [1m[31mdestroyed[0m
+[0m  [31m-[0m[0m resource "random_id" "deployment" {
+      [31m-[0m[0m b64_std     = "CE97EA==" [90m-> null[0m[0m
+      [31m-[0m[0m b64_url     = "CE97EA" [90m-> null[0m[0m
+      [31m-[0m[0m byte_length = 4 [90m-> null[0m[0m
+      [31m-[0m[0m dec         = "139426576" [90m-> null[0m[0m
+      [31m-[0m[0m hex         = "084f7b10" [90m-> null[0m[0m
+      [31m-[0m[0m id          = "CE97EA" [90m-> null[0m[0m
+    }
+
+[1mPlan:[0m 0 to add, 0 to change, 4 to destroy.
+[0m
+Changes to Outputs:
+  [31m-[0m[0m deployment_id          = "084f7b10" [90m-> null[0m[0m
+  [31m-[0m[0m sucursales_desplegadas = [
+      [31m-[0m[0m "suc-001",
+      [31m-[0m[0m "suc-002",
+      [31m-[0m[0m "suc-003",
+    ] [90m-> null[0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Destroying... [id=3d1c816985c9d76d106b03c4013dd27cd074f01b][0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Destroying... [id=5be95ab67bdb5d75029687ffc6eb3c94da8af5c7][0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-003"]: Destroying... [id=d6dcd379ca22ac9ba41d1cd3f8235f4c721b43c8][0m[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-001"]: Destruction complete after 0s[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-002"]: Destruction complete after 0s[0m
+[0m[1mlocal_file.sucursal_state_demo["suc-003"]: Destruction complete after 0s[0m
+[0m[1mrandom_id.deployment: Destroying... [id=CE97EA][0m[0m
+[0m[1mrandom_id.deployment: Destruction complete after 0s[0m
+[0m[1m[32m
+Destroy complete! Resources: 4 destroyed.
+[0m
+
+
+
+===== 10. Revertir main.tf al estado original =====
+

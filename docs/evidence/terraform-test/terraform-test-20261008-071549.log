@@ -1,0 +1,58 @@
+aws_compute.tftest.hcl... in progress
+  run "crea_dos_servidores_con_el_tipo_de_instancia_correcto"... pass
+  run "tamano_medium_usa_instance_type_mayor"... pass
+  run "rechaza_lista_de_servidores_vacia"... pass
+aws_compute.tftest.hcl... tearing down
+aws_compute.tftest.hcl... pass
+aws_monitoring.tftest.hcl... in progress
+  run "crea_log_group_cuando_monitoreo_habilitado"... pass
+  run "no_crea_recursos_cuando_monitoreo_deshabilitado"... pass
+  run "rechaza_retention_days_no_soportado"... pass
+aws_monitoring.tftest.hcl... tearing down
+aws_monitoring.tftest.hcl... pass
+aws_network.tftest.hcl... in progress
+  run "vpc_usa_el_cidr_declarado"... pass
+  run "subnet_usa_el_cidr_declarado"... pass
+  run "ruta_por_defecto_apunta_al_internet_gateway"... pass
+  run "rechaza_cidr_invalido"... pass
+aws_network.tftest.hcl... tearing down
+aws_network.tftest.hcl... pass
+aws_security.tftest.hcl... in progress
+  run "crea_un_security_group_por_sucursal"... pass
+  run "crea_una_regla_por_cada_entrada_declarada"... pass
+  run "rechaza_direccion_invalida"... pass
+aws_security.tftest.hcl... tearing down
+aws_security.tftest.hcl... pass
+branch_stack.tftest.hcl... in progress
+  run "produccion_tiene_40_sucursales_balanceadas_entre_aws_y_gcp"... pass
+  run "staging_tiene_6_sucursales"... pass
+  run "development_tiene_4_sucursales"... pass
+  run "total_de_sucursales_en_los_tres_entornos_es_50"... pass
+  run "rechaza_entorno_invalido"... pass
+branch_stack.tftest.hcl... tearing down
+branch_stack.tftest.hcl... pass
+gcp_compute.tftest.hcl... in progress
+  run "crea_dos_servidores_con_el_machine_type_correcto"... pass
+  run "rechaza_lista_de_servidores_vacia"... pass
+gcp_compute.tftest.hcl... tearing down
+gcp_compute.tftest.hcl... pass
+gcp_monitoring.tftest.hcl... in progress
+  run "crea_politica_de_alerta_cuando_monitoreo_habilitado"... pass
+  run "no_crea_recursos_cuando_monitoreo_deshabilitado"... pass
+gcp_monitoring.tftest.hcl... tearing down
+gcp_monitoring.tftest.hcl... pass
+gcp_network.tftest.hcl... in progress
+  run "subnet_usa_la_region_y_cidr_declarados"... pass
+  run "vpc_es_de_modo_personalizado"... pass
+  run "rechaza_subnet_cidr_invalido"... pass
+gcp_network.tftest.hcl... tearing down
+gcp_network.tftest.hcl... pass
+gcp_security.tftest.hcl... in progress
+  run "crea_una_regla_de_firewall_por_cada_entrada"... pass
+  run "rechaza_puerto_fuera_de_rango"... pass
+gcp_security.tftest.hcl... tearing down
+gcp_security.tftest.hcl... pass
+
+Success! 27 passed, 0 failed.
+
+[exited with code 0]

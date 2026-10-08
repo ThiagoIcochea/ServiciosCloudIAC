@@ -1,0 +1,126 @@
+name: Terraform CI
+
+# CP01, CP02, CP03, CP09, CP10: validacion sintactica, de modulos AWS/GCP y
+# pruebas con mock_provider. NUNCA ejecuta `terraform apply` contra AWS/GCP
+# real: no existen credenciales cloud en este proyecto (restriccion
+# fundamental del enunciado).
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "terraform/**"
+      - "config/branches/**"
+      - ".github/workflows/terraform-ci.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "terraform/**"
+      - "config/branches/**"
+      - ".github/workflows/terraform-ci.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: "1.9.8"
+  TF_IN_AUTOMATION: "true"
+
+jobs:
+  fmt:
+    name: terraform fmt -check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: terraform fmt -check -recursive
+        run: terraform fmt -check -recursive terraform/
+
+  validate:
+    name: validate (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    needs: fmt
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [development, staging, production]
+    defaults:
+      run:
+        working-directory: terraform/environments/${{ matrix.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: terraform init (sin backend remoto, sin credenciales)
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        run: terraform validate
+
+  scalability-schema:
+    name: validacion de escalabilidad (50 sucursales)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install pyyaml
+
+      - name: Validar config/branches/branches.yaml
+        run: python scripts/validate_branches_schema.py
+
+  terraform-test:
+    name: terraform test (mock_provider)
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: terraform init (tests)
+        working-directory: terraform/tests
+        run: terraform init -backend=false
+
+      - name: terraform test
+        working-directory: terraform/tests
+        run: terraform test -no-color | tee terraform-test-results.txt
+
+      - name: Publicar resultados de terraform test
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-test-results
+          path: terraform/tests/terraform-test-results.txt
+
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+
+      - name: tflint --init
+        run: tflint --init
+        working-directory: terraform
+
+      - name: tflint
+        run: tflint --recursive --format compact
+        working-directory: terraform

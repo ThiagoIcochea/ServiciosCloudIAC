@@ -1,0 +1,69 @@
+services:
+  suc01-web01:
+    image: nginx:1.27-alpine
+    container_name: suc01-web01
+    hostname: suc01-web01
+    networks: [sucursal-01-net]
+    volumes:
+      - ./sucursal-01/web01:/usr/share/nginx/html:ro
+    ports:
+      - "8081:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  suc01-app01:
+    image: nginx:1.27-alpine
+    container_name: suc01-app01
+    hostname: suc01-app01
+    networks: [sucursal-01-net]
+    volumes:
+      - ./sucursal-01/app01:/usr/share/nginx/html:ro
+    ports:
+      - "8082:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  suc02-web01:
+    image: nginx:1.27-alpine
+    container_name: suc02-web01
+    hostname: suc02-web01
+    networks: [sucursal-02-net]
+    volumes:
+      - ./sucursal-02/web01:/usr/share/nginx/html:ro
+    ports:
+      - "8091:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  suc02-app01:
+    image: nginx:1.27-alpine
+    container_name: suc02-app01
+    hostname: suc02-app01
+    networks: [sucursal-02-net]
+    volumes:
+      - ./sucursal-02/app01:/usr/share/nginx/html:ro
+    ports:
+      - "8092:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+networks:
+  # Una red Docker por sucursal: representa, a escala de laboratorio, el
+  # aislamiento de red que en Terraform dan la VPC/VPC Network de cada
+  # sucursal (modulos aws/network y gcp/network).
+  sucursal-01-net:
+    driver: bridge
+  sucursal-02-net:
+    driver: bridge

@@ -1,0 +1,87 @@
+name: Drift Check (demostracion local)
+
+# FASE VI, seccion 16: deteccion automatica de drift. Como el proyecto no
+# cuenta con credenciales de AWS ni GCP, este workflow NO consulta recursos
+# cloud reales: ejecuta la demostracion de drift local (provider "local",
+# lab/drift) de forma programada, como sustituto didactico de lo que en un
+# entorno empresarial real seria un `terraform plan` programado contra el
+# backend remoto de AWS/GCP.
+#
+# Cualquier verificacion real contra AWS/GCP queda explicitamente
+# deshabilitada (ver job "real-cloud-drift-check-disabled" mas abajo) hasta
+# que existan credenciales y un backend remoto configurados.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # todos los lunes 06:00 UTC (ejecucion programada, CP13)
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: "1.9.8"
+
+jobs:
+  local-drift-demo:
+    name: Demostracion de Drift (recursos locales)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: terraform init
+        working-directory: lab/drift
+        run: terraform init -backend=false
+
+      - name: terraform apply (crea el recurso gestionado)
+        working-directory: lab/drift
+        run: terraform apply -auto-approve
+
+      - name: Modificacion manual simulada (fuera de Terraform)
+        working-directory: lab/drift
+        run: |
+          echo "# modificado manualmente (CI)" >> output/suc-001-server.conf
+          echo "max_connections=9999" >> output/suc-001-server.conf
+
+      - name: terraform plan (debe detectar drift)
+        working-directory: lab/drift
+        id: plan
+        run: terraform plan -detailed-exitcode -no-color | tee plan-output.txt
+        continue-on-error: true
+
+      - name: Generar reporte de drift
+        working-directory: lab/drift
+        run: |
+          {
+            echo "# Reporte de Drift - $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo ""
+            echo '```'
+            cat plan-output.txt
+            echo '```'
+          } > drift-report.md
+
+      - name: Publicar reporte de drift
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report
+          path: lab/drift/drift-report.md
+
+      - name: Fallar el job si se detecto drift (para habilitar notificacion/incidencia)
+        if: steps.plan.outcome == 'failure'
+        run: |
+          echo "::warning::Se detecto Infrastructure Drift. Revisar drift-report.md y evaluar reconciliacion manual (ver lab/drift/README.md)."
+
+  real-cloud-drift-check-disabled:
+    name: Deteccion de Drift real en AWS/GCP (DESHABILITADO)
+    runs-on: ubuntu-latest
+    if: false # Deshabilitado a proposito: no existen credenciales cloud (restriccion fundamental del enunciado)
+    steps:
+      - name: No-op
+        run: |
+          echo "Este job representa donde se conectaria la deteccion real de drift"
+          echo "contra AWS/GCP (terraform plan con backend remoto y credenciales OIDC)."
+          echo "Se mantiene deshabilitado (if: false) hasta contar con credenciales reales."

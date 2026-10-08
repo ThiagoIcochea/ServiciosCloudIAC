@@ -1,0 +1,70 @@
+name: Terraform Security
+
+# CP11: verificacion de secretos. Escaneo de seguridad estatico (Checkov) y
+# deteccion de secretos (gitleaks). No requiere credenciales cloud: analiza
+# el codigo fuente, no despliega nada.
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: Escaneo de secretos (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  checkov:
+    name: Checkov (analisis estatico de seguridad IaC)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform/
+          framework: terraform
+          output_format: cli,sarif
+          output_file_path: console,checkov-results.sarif
+          soft_fail: true # No bloquea el pipeline mientras se documentan hallazgos (ver docs/academic)
+
+      - name: Publicar resultados SARIF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-results
+          path: checkov-results.sarif
+
+  custom-secrets-check:
+    name: Verificacion adicional (patrones propios)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar que no existan archivos .tfstate ni .tfvars reales en el repo
+        shell: bash
+        run: |
+          set -e
+          echo "Buscando archivos que nunca deben versionarse..."
+          matches=$(git ls-files | grep -E '\.tfstate(\.backup)?$|secrets\.auto\.tfvars$|\.pem$|\.key$' || true)
+          if [ -n "$matches" ]; then
+            echo "Se encontraron archivos prohibidos en el repositorio:"
+            echo "$matches"
+            exit 1
+          fi
+          echo "OK: no se encontraron archivos de estado ni secretos versionados."

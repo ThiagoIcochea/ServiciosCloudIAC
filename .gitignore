@@ -1,0 +1,58 @@
+# Terraform
+# NOTA: .terraform.lock.hcl SI se versiona (practica recomendada de HashiCorp
+# para fijar las versiones de provider); solo se ignora el directorio de
+# plugins descargados y el estado.
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+*.tfvars
+!*.tfvars.example
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Portable CLI binaries downloaded locally (not part of the repo)
+tools/
+
+# Docker
+lab/docker/**/data/
+
+# Salidas regenerables de los laboratorios locales (no son codigo fuente)
+lab/drift/output/
+lab/local-terraform/output/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node (if used for tooling)
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
+
+# Evidence working files that are regenerated locally (keep curated evidence only)
+docs/evidence/_raw/
+
+# Secrets (defense in depth - should never exist)
+*.pem
+*.key
+secrets.auto.tfvars
+.env
+.env.*
+!*.env.example
+
+# Reference material not part of the deliverable
+Makip_Te_Crea_Proyecto_Actualizado.docx
+prompt.md

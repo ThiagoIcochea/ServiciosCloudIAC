@@ -1,0 +1,24 @@
+=== CP15: Incorporacion de una sucursal nueva (51) - cambio de datos, no de codigo ===
+
+1) Se ajusta TOTAL_SUCURSALES de 50 a 51 en scripts/generate_branches.py (unico cambio).
+2) Se regenera branches.yaml:
+Generadas 51 sucursales -> C:\Users\thico\Videos\Tarea Servicios Cloud\config\branches\branches.yaml
+  AWS: 26  GCP: 25
+
+3) Verificacion: ningun archivo .tf fue modificado (solo scripts/ y config/):
+?? .github/
+?? .gitignore
+?? LICENSE
+?? README.md
+?? config/
+?? docs/
+?? lab/
+?? scripts/
+?? terraform/
+
+4) Se revierte a 50 sucursales (estado normal del repositorio):
+Generadas 50 sucursales -> C:\Users\thico\Videos\Tarea Servicios Cloud\config\branches\branches.yaml
+  AWS: 25  GCP: 25
+Sucursales analizadas: 50
+  AWS: 25  GCP: 25
+OK: todas las verificaciones de escalabilidad pasaron.

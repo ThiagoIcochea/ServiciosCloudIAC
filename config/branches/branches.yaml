@@ -1,0 +1,2053 @@
+# Archivo generado automaticamente por scripts/generate_branches.py
+# NO editar a mano: regenerar con `python scripts/generate_branches.py`
+sucursales:
+  - id: "suc-001"
+    name: "Sucursal 01 - Lima Centro"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.1.0/24"
+      subnet_cidr: "10.10.1.0/26"
+    servers:
+      - name: "web-001"
+        role: "web"
+        size: "small"
+      - name: "app-001"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-001"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Centro"
+
+  - id: "suc-002"
+    name: "Sucursal 02 - Lima Norte"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.2.0/24"
+      subnet_cidr: "10.20.2.0/26"
+    servers:
+      - name: "web-002"
+        role: "web"
+        size: "small"
+      - name: "app-002"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-002"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Norte"
+
+  - id: "suc-003"
+    name: "Sucursal 03 - Lima Sur"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.3.0/24"
+      subnet_cidr: "10.10.3.0/26"
+    servers:
+      - name: "web-003"
+        role: "web"
+        size: "small"
+      - name: "app-003"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-003"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Sur"
+
+  - id: "suc-004"
+    name: "Sucursal 04 - Lima Este"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.4.0/24"
+      subnet_cidr: "10.20.4.0/26"
+    servers:
+      - name: "web-004"
+        role: "web"
+        size: "small"
+      - name: "app-004"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-004"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Este"
+
+  - id: "suc-005"
+    name: "Sucursal 05 - Callao"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.5.0/24"
+      subnet_cidr: "10.10.5.0/26"
+    servers:
+      - name: "web-005"
+        role: "web"
+        size: "small"
+      - name: "app-005"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-005"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Callao"
+
+  - id: "suc-006"
+    name: "Sucursal 06 - Arequipa"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.6.0/24"
+      subnet_cidr: "10.20.6.0/26"
+    servers:
+      - name: "web-006"
+        role: "web"
+        size: "small"
+      - name: "app-006"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-006"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Arequipa"
+
+  - id: "suc-007"
+    name: "Sucursal 07 - Trujillo"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.7.0/24"
+      subnet_cidr: "10.10.7.0/26"
+    servers:
+      - name: "web-007"
+        role: "web"
+        size: "small"
+      - name: "app-007"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-007"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Trujillo"
+
+  - id: "suc-008"
+    name: "Sucursal 08 - Chiclayo"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.8.0/24"
+      subnet_cidr: "10.20.8.0/26"
+    servers:
+      - name: "web-008"
+        role: "web"
+        size: "small"
+      - name: "app-008"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-008"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Chiclayo"
+
+  - id: "suc-009"
+    name: "Sucursal 09 - Piura"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.9.0/24"
+      subnet_cidr: "10.10.9.0/26"
+    servers:
+      - name: "web-009"
+        role: "web"
+        size: "small"
+      - name: "app-009"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-009"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Piura"
+
+  - id: "suc-010"
+    name: "Sucursal 10 - Cusco"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.10.0/24"
+      subnet_cidr: "10.20.10.0/26"
+    servers:
+      - name: "web-010"
+        role: "web"
+        size: "small"
+      - name: "app-010"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-010"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Cusco"
+
+  - id: "suc-011"
+    name: "Sucursal 11 - Huancayo"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.11.0/24"
+      subnet_cidr: "10.10.11.0/26"
+    servers:
+      - name: "web-011"
+        role: "web"
+        size: "small"
+      - name: "app-011"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-011"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Huancayo"
+
+  - id: "suc-012"
+    name: "Sucursal 12 - Iquitos"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.12.0/24"
+      subnet_cidr: "10.20.12.0/26"
+    servers:
+      - name: "web-012"
+        role: "web"
+        size: "small"
+      - name: "app-012"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-012"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Iquitos"
+
+  - id: "suc-013"
+    name: "Sucursal 13 - Tacna"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.13.0/24"
+      subnet_cidr: "10.10.13.0/26"
+    servers:
+      - name: "web-013"
+        role: "web"
+        size: "small"
+      - name: "app-013"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-013"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tacna"
+
+  - id: "suc-014"
+    name: "Sucursal 14 - Ica"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.14.0/24"
+      subnet_cidr: "10.20.14.0/26"
+    servers:
+      - name: "web-014"
+        role: "web"
+        size: "small"
+      - name: "app-014"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-014"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Ica"
+
+  - id: "suc-015"
+    name: "Sucursal 15 - Pucallpa"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.15.0/24"
+      subnet_cidr: "10.10.15.0/26"
+    servers:
+      - name: "web-015"
+        role: "web"
+        size: "small"
+      - name: "app-015"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-015"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Pucallpa"
+
+  - id: "suc-016"
+    name: "Sucursal 16 - Chimbote"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.16.0/24"
+      subnet_cidr: "10.20.16.0/26"
+    servers:
+      - name: "web-016"
+        role: "web"
+        size: "small"
+      - name: "app-016"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-016"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Chimbote"
+
+  - id: "suc-017"
+    name: "Sucursal 17 - Tarapoto"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.17.0/24"
+      subnet_cidr: "10.10.17.0/26"
+    servers:
+      - name: "web-017"
+        role: "web"
+        size: "small"
+      - name: "app-017"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-017"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tarapoto"
+
+  - id: "suc-018"
+    name: "Sucursal 18 - Juliaca"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.18.0/24"
+      subnet_cidr: "10.20.18.0/26"
+    servers:
+      - name: "web-018"
+        role: "web"
+        size: "small"
+      - name: "app-018"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-018"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Juliaca"
+
+  - id: "suc-019"
+    name: "Sucursal 19 - Cajamarca"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.19.0/24"
+      subnet_cidr: "10.10.19.0/26"
+    servers:
+      - name: "web-019"
+        role: "web"
+        size: "small"
+      - name: "app-019"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-019"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Cajamarca"
+
+  - id: "suc-020"
+    name: "Sucursal 20 - Ayacucho"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.20.0/24"
+      subnet_cidr: "10.20.20.0/26"
+    servers:
+      - name: "web-020"
+        role: "web"
+        size: "small"
+      - name: "app-020"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-020"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Ayacucho"
+
+  - id: "suc-021"
+    name: "Sucursal 21 - Huaraz"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.21.0/24"
+      subnet_cidr: "10.10.21.0/26"
+    servers:
+      - name: "web-021"
+        role: "web"
+        size: "small"
+      - name: "app-021"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-021"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Huaraz"
+
+  - id: "suc-022"
+    name: "Sucursal 22 - Puno"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.22.0/24"
+      subnet_cidr: "10.20.22.0/26"
+    servers:
+      - name: "web-022"
+        role: "web"
+        size: "small"
+      - name: "app-022"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-022"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Puno"
+
+  - id: "suc-023"
+    name: "Sucursal 23 - Abancay"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.23.0/24"
+      subnet_cidr: "10.10.23.0/26"
+    servers:
+      - name: "web-023"
+        role: "web"
+        size: "small"
+      - name: "app-023"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-023"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Abancay"
+
+  - id: "suc-024"
+    name: "Sucursal 24 - Moquegua"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.24.0/24"
+      subnet_cidr: "10.20.24.0/26"
+    servers:
+      - name: "web-024"
+        role: "web"
+        size: "small"
+      - name: "app-024"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-024"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Moquegua"
+
+  - id: "suc-025"
+    name: "Sucursal 25 - Tumbes"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.25.0/24"
+      subnet_cidr: "10.10.25.0/26"
+    servers:
+      - name: "web-025"
+        role: "web"
+        size: "small"
+      - name: "app-025"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-025"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tumbes"
+
+  - id: "suc-026"
+    name: "Sucursal 26 - Lima Centro"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.26.0/24"
+      subnet_cidr: "10.20.26.0/26"
+    servers:
+      - name: "web-026"
+        role: "web"
+        size: "small"
+      - name: "app-026"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-026"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Centro"
+
+  - id: "suc-027"
+    name: "Sucursal 27 - Lima Norte"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.27.0/24"
+      subnet_cidr: "10.10.27.0/26"
+    servers:
+      - name: "web-027"
+        role: "web"
+        size: "small"
+      - name: "app-027"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-027"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Norte"
+
+  - id: "suc-028"
+    name: "Sucursal 28 - Lima Sur"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.28.0/24"
+      subnet_cidr: "10.20.28.0/26"
+    servers:
+      - name: "web-028"
+        role: "web"
+        size: "small"
+      - name: "app-028"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-028"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Sur"
+
+  - id: "suc-029"
+    name: "Sucursal 29 - Lima Este"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.29.0/24"
+      subnet_cidr: "10.10.29.0/26"
+    servers:
+      - name: "web-029"
+        role: "web"
+        size: "small"
+      - name: "app-029"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-029"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Lima Este"
+
+  - id: "suc-030"
+    name: "Sucursal 30 - Callao"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.30.0/24"
+      subnet_cidr: "10.20.30.0/26"
+    servers:
+      - name: "web-030"
+        role: "web"
+        size: "small"
+      - name: "app-030"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-030"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Callao"
+
+  - id: "suc-031"
+    name: "Sucursal 31 - Arequipa"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.31.0/24"
+      subnet_cidr: "10.10.31.0/26"
+    servers:
+      - name: "web-031"
+        role: "web"
+        size: "small"
+      - name: "app-031"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-031"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Arequipa"
+
+  - id: "suc-032"
+    name: "Sucursal 32 - Trujillo"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.32.0/24"
+      subnet_cidr: "10.20.32.0/26"
+    servers:
+      - name: "web-032"
+        role: "web"
+        size: "small"
+      - name: "app-032"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-032"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Trujillo"
+
+  - id: "suc-033"
+    name: "Sucursal 33 - Chiclayo"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.33.0/24"
+      subnet_cidr: "10.10.33.0/26"
+    servers:
+      - name: "web-033"
+        role: "web"
+        size: "small"
+      - name: "app-033"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-033"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Chiclayo"
+
+  - id: "suc-034"
+    name: "Sucursal 34 - Piura"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.34.0/24"
+      subnet_cidr: "10.20.34.0/26"
+    servers:
+      - name: "web-034"
+        role: "web"
+        size: "small"
+      - name: "app-034"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-034"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Piura"
+
+  - id: "suc-035"
+    name: "Sucursal 35 - Cusco"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.35.0/24"
+      subnet_cidr: "10.10.35.0/26"
+    servers:
+      - name: "web-035"
+        role: "web"
+        size: "small"
+      - name: "app-035"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-035"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Cusco"
+
+  - id: "suc-036"
+    name: "Sucursal 36 - Huancayo"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.36.0/24"
+      subnet_cidr: "10.20.36.0/26"
+    servers:
+      - name: "web-036"
+        role: "web"
+        size: "small"
+      - name: "app-036"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-036"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Huancayo"
+
+  - id: "suc-037"
+    name: "Sucursal 37 - Iquitos"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.37.0/24"
+      subnet_cidr: "10.10.37.0/26"
+    servers:
+      - name: "web-037"
+        role: "web"
+        size: "small"
+      - name: "app-037"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-037"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Iquitos"
+
+  - id: "suc-038"
+    name: "Sucursal 38 - Tacna"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.38.0/24"
+      subnet_cidr: "10.20.38.0/26"
+    servers:
+      - name: "web-038"
+        role: "web"
+        size: "small"
+      - name: "app-038"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-038"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tacna"
+
+  - id: "suc-039"
+    name: "Sucursal 39 - Ica"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "production"
+    network:
+      cidr_block: "10.10.39.0/24"
+      subnet_cidr: "10.10.39.0/26"
+    servers:
+      - name: "web-039"
+        role: "web"
+        size: "small"
+      - name: "app-039"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-039"
+      entorno: "production"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Ica"
+
+  - id: "suc-040"
+    name: "Sucursal 40 - Pucallpa"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "production"
+    network:
+      cidr_block: "10.20.40.0/24"
+      subnet_cidr: "10.20.40.0/26"
+    servers:
+      - name: "web-040"
+        role: "web"
+        size: "small"
+      - name: "app-040"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 14
+    tags:
+      sucursal_id: "suc-040"
+      entorno: "production"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Pucallpa"
+
+  - id: "suc-041"
+    name: "Sucursal 41 - Chimbote"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "staging"
+    network:
+      cidr_block: "10.10.41.0/24"
+      subnet_cidr: "10.10.41.0/26"
+    servers:
+      - name: "web-041"
+        role: "web"
+        size: "small"
+      - name: "app-041"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-041"
+      entorno: "staging"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Chimbote"
+
+  - id: "suc-042"
+    name: "Sucursal 42 - Tarapoto"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "staging"
+    network:
+      cidr_block: "10.20.42.0/24"
+      subnet_cidr: "10.20.42.0/26"
+    servers:
+      - name: "web-042"
+        role: "web"
+        size: "small"
+      - name: "app-042"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-042"
+      entorno: "staging"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tarapoto"
+
+  - id: "suc-043"
+    name: "Sucursal 43 - Juliaca"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "staging"
+    network:
+      cidr_block: "10.10.43.0/24"
+      subnet_cidr: "10.10.43.0/26"
+    servers:
+      - name: "web-043"
+        role: "web"
+        size: "small"
+      - name: "app-043"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-043"
+      entorno: "staging"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Juliaca"
+
+  - id: "suc-044"
+    name: "Sucursal 44 - Cajamarca"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "staging"
+    network:
+      cidr_block: "10.20.44.0/24"
+      subnet_cidr: "10.20.44.0/26"
+    servers:
+      - name: "web-044"
+        role: "web"
+        size: "small"
+      - name: "app-044"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-044"
+      entorno: "staging"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Cajamarca"
+
+  - id: "suc-045"
+    name: "Sucursal 45 - Ayacucho"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "staging"
+    network:
+      cidr_block: "10.10.45.0/24"
+      subnet_cidr: "10.10.45.0/26"
+    servers:
+      - name: "web-045"
+        role: "web"
+        size: "small"
+      - name: "app-045"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-045"
+      entorno: "staging"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Ayacucho"
+
+  - id: "suc-046"
+    name: "Sucursal 46 - Huaraz"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "staging"
+    network:
+      cidr_block: "10.20.46.0/24"
+      subnet_cidr: "10.20.46.0/26"
+    servers:
+      - name: "web-046"
+        role: "web"
+        size: "small"
+      - name: "app-046"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-046"
+      entorno: "staging"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Huaraz"
+
+  - id: "suc-047"
+    name: "Sucursal 47 - Puno"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "development"
+    network:
+      cidr_block: "10.10.47.0/24"
+      subnet_cidr: "10.10.47.0/26"
+    servers:
+      - name: "web-047"
+        role: "web"
+        size: "small"
+      - name: "app-047"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-047"
+      entorno: "development"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Puno"
+
+  - id: "suc-048"
+    name: "Sucursal 48 - Abancay"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "development"
+    network:
+      cidr_block: "10.20.48.0/24"
+      subnet_cidr: "10.20.48.0/26"
+    servers:
+      - name: "web-048"
+        role: "web"
+        size: "small"
+      - name: "app-048"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-048"
+      entorno: "development"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Abancay"
+
+  - id: "suc-049"
+    name: "Sucursal 49 - Moquegua"
+    provider: "aws"
+    region: "sa-east-1"
+    environment: "development"
+    network:
+      cidr_block: "10.10.49.0/24"
+      subnet_cidr: "10.10.49.0/26"
+    servers:
+      - name: "web-049"
+        role: "web"
+        size: "small"
+      - name: "app-049"
+        role: "app"
+        size: "small"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-049"
+      entorno: "development"
+      proveedor: "aws"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Moquegua"
+
+  - id: "suc-050"
+    name: "Sucursal 50 - Tumbes"
+    provider: "gcp"
+    region: "southamerica-east1"
+    environment: "development"
+    network:
+      cidr_block: "10.20.50.0/24"
+      subnet_cidr: "10.20.50.0/26"
+    servers:
+      - name: "web-050"
+        role: "web"
+        size: "small"
+      - name: "app-050"
+        role: "app"
+        size: "medium"
+    security_rules:
+      - name: "allow-http"
+        port: 80
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-https"
+        port: 443
+        protocol: "tcp"
+        cidr: "0.0.0.0/0"
+        direction: "ingress"
+      - name: "allow-ssh-internal"
+        port: 22
+        protocol: "tcp"
+        cidr: "10.0.0.0/8"
+        direction: "ingress"
+    monitoring:
+      enabled: true
+      retention_days: 7
+    tags:
+      sucursal_id: "suc-050"
+      entorno: "development"
+      proveedor: "gcp"
+      proyecto: "iac-50-sucursales"
+      ciudad: "Tumbes"
+

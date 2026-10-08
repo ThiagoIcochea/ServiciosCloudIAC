@@ -1,0 +1,10 @@
+=== terraform fmt -recursive (reformatted 4 files on first run) ===
+
+=== terraform validate - production (40 sucursales) ===
+Success! The configuration is valid.
+
+=== terraform validate - staging (6 sucursales) ===
+Success! The configuration is valid.
+
+=== terraform validate - development (4 sucursales) ===
+Success! The configuration is valid.
