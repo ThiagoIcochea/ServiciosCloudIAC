@@ -225,11 +225,13 @@ escaneo de secretos (gitleaks), y un procedimiento de aprobación mediante
 Pull Request. Las 27 pruebas automatizadas de Terraform (`mock_provider`)
 pasaron exitosamente, así como la validación de escalabilidad de las 50
 sucursales y los dos laboratorios locales (State y Drift). El laboratorio
-Docker de 2 sucursales quedó completamente implementado pero su ejecución
-real está pendiente por no contar con Docker Desktop en el equipo de
-desarrollo, limitación documentada explícitamente. El informe distingue en
-todo momento lo que se ejecutó realmente de lo que queda documentado como
-diseño para un despliegue empresarial futuro con credenciales reales.
+Docker de 2 sucursales (4 contenedores, HTTP, conectividad interna y
+aislamiento de red) y el monitoreo local se ejecutaron realmente en GitHub
+Actions —no en el equipo de desarrollo local, que no tiene Docker Desktop
+operativo— con resultado exitoso y evidencia real capturada. El informe
+distingue en todo momento lo que se ejecutó realmente de lo que queda
+documentado como diseño para un despliegue empresarial futuro con
+credenciales reales.
 
 **Palabras clave**: Infraestructura como Código, Terraform, AWS, Google
 Cloud Platform, CI/CD, Infrastructure Drift, Terraform State, DevOps.
@@ -425,31 +427,37 @@ recursos creados por sucursal.
     add_figure(doc, SCREENSHOTS / "fig-terraform-test.png", "Figura 9d. Evidencia real: terraform test (27 passed, 0 failed).")
     add_figure(doc, SCREENSHOTS / "fig-scalability-validation.png", "Figura 9e. Evidencia real: validación de las 50 sucursales.")
     add_figure(doc, DIAGRAMS / "fig-08-laboratorio-docker.png", "Figura 8. Arquitectura del laboratorio local (Docker).")
+    add_figure(doc, SCREENSHOTS / "fig-docker-lab.png", "Figura 9f. Evidencia real: laboratorio Docker ejecutado en GitHub Actions (4 contenedores healthy, HTTP 200, conectividad interna y aislamiento de red confirmados).")
 
     # 13. RESULTADOS -------------------------------------------------
     doc.add_heading("13. RESULTADOS", level=1)
     add_markdown(doc, """
-De 16 casos de prueba planificados (CP01-CP16), 14 se ejecutaron y pasaron
-exitosamente, 1 (CP10, ejecución de GitHub Actions) quedó pendiente hasta la
-publicación autorizada del repositorio, y 1 (CP16, limpieza del laboratorio
-Docker) quedó parcialmente bloqueada por no contar con Docker Desktop en el
-equipo de desarrollo. Las 27 pruebas de `terraform test` con `mock_provider`
-pasaron sin fallos tras corregir un error real detectado durante la primera
-ejecución (indexación inválida sobre un atributo de tipo `set` en el módulo
-`aws/network`; ver CP02 en el plan de pruebas). La validación de
-escalabilidad confirmó 50 sucursales (25 AWS / 25 GCP), 40 en producción, 6
-en staging y 4 en desarrollo, sin identificadores duplicados.
+De 16 casos de prueba planificados (CP01-CP16), los 16 se ejecutaron y
+pasaron con evidencia real. Las 27 pruebas de `terraform test` con
+`mock_provider` pasaron sin fallos tras corregir un error real detectado
+durante la primera ejecución (indexación inválida sobre un atributo de tipo
+`set` en el módulo `aws/network`; ver CP02 en el plan de pruebas). La
+validación de escalabilidad confirmó 50 sucursales (25 AWS / 25 GCP), 40 en
+producción, 6 en staging y 4 en desarrollo, sin identificadores duplicados.
+El laboratorio Docker de 2 sucursales (4 contenedores, HTTP, conectividad
+interna, aislamiento de red) y el monitoreo local se ejecutaron realmente
+en un runner `ubuntu-latest` de GitHub Actions —que trae Docker Engine y
+Docker Compose preinstalados— ya que el equipo de desarrollo local no tiene
+Docker Desktop operativo (instalado, pero sin poder iniciar sin reiniciar
+Windows, reinicio que se decidió no realizar). El pipeline de CI/CD
+detectó, en su primera ejecución real, dos problemas genuinos (formato sin
+aplicar y advertencias de TFLint en los módulos GCP; un paso de
+inicialización de backend incompleto en el workflow de Drift), ambos
+corregidos y verificados con una segunda ejecución exitosa.
 
 ## Limitaciones
 
 - No se validó el comportamiento contra la API real de AWS ni GCP (sin
   credenciales).
-- El laboratorio Docker (2 sucursales, aislamiento de red) está
-  implementado pero no se ejecutó en este equipo de desarrollo por no
-  contar con Docker Desktop instalado (requiere habilitar WSL2/Hyper-V,
-  cambio de sistema que el enunciado pide no realizar sin autorización).
-- El monitoreo local (`lab/monitoring`) depende del laboratorio Docker y
-  comparte la misma limitación.
+- El laboratorio Docker y el monitoreo local se validaron en un runner de
+  GitHub Actions, no en el equipo de desarrollo Windows (que tiene Docker
+  Desktop instalado pero no operativo, por la razón descrita arriba). El
+  código ejecutado es idéntico en ambos casos; solo cambia el entorno.
 """)
 
     # 14. DISCUSION -------------------------------------------------
@@ -488,15 +496,16 @@ el despliegue real en el futuro").
    independientemente del proveedor; se demostró end-to-end con un recurso
    local real.
 5. La principal limitación del proyecto es la imposibilidad de validar el
-   comportamiento contra las APIs reales de AWS/GCP y la ejecución del
-   laboratorio Docker, ambas documentadas explícitamente en vez de
-   simuladas como si hubiesen ocurrido.
+   comportamiento contra las APIs reales de AWS/GCP; el laboratorio Docker,
+   que inicialmente tampoco podía ejecutarse localmente, se completó con
+   evidencia real usando un runner de GitHub Actions en lugar de simular su
+   resultado.
 """)
 
     # 16. RECOMENDACIONES -------------------------------------------------
     doc.add_heading("16. RECOMENDACIONES", level=1)
     add_markdown(doc, """
-1. Antes de un despliegue real, ejecutar el laboratorio Docker completo en
+1. Para una demostración presencial, ejecutar también el laboratorio Docker en
    un equipo con Docker Desktop disponible, para validar el patrón de
    aislamiento de red con evidencia adicional.
 2. Configurar backends remotos (S3/GCS) y autenticación OIDC antes de

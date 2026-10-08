@@ -89,7 +89,7 @@ cd lab/docker; ./start.ps1; ./test.ps1; ./stop.ps1; cd ../..
 |---|---|---|
 | `terraform validate` | La configuracion es sintacticamente correcta y consistente | Que AWS/GCP aceptarian esos recursos (cuotas, permisos, disponibilidad de la imagen/AMI) |
 | `terraform test` + `mock_provider` | El wiring (variables, `for_each`, referencias entre modulos, validaciones) produce los recursos y atributos esperados | Comportamiento real de la API de AWS/GCP |
-| Laboratorio Docker (`lab/docker`) | El patron "red aislada + 2 servidores" funciona y es verificable (HTTP, conectividad, aislamiento) | Que una VPC/EC2 o VPC Network/Compute Engine reales se comporten igual (Docker no es una VM cloud) |
+| Laboratorio Docker (`lab/docker`, ejecutado en GitHub Actions — ver `.github/workflows/docker-lab.yml`) | El patron "red aislada + 2 servidores" funciona y es verificable (HTTP, conectividad, aislamiento); 100% real, no simulado | Que una VPC/EC2 o VPC Network/Compute Engine reales se comporten igual (Docker no es una VM cloud) |
 | Laboratorio de State/Drift (`lab/local-terraform`, `lab/drift`) | El ciclo de vida del estado y la deteccion/reconciliacion de drift funcionan con Terraform real | El comportamiento especifico de un backend S3/GCS remoto con locking real |
 
 Este proyecto distingue explicitamente, en cada README y en

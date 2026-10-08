@@ -68,9 +68,11 @@ documentada, sin requerir credenciales cloud para su demostracion.
 
 - Sin credenciales de AWS ni GCP (no se ejecuta `terraform apply` real).
 - Equipo de desarrollo: Windows 11, 8 GB RAM, sin GPU dedicada.
-- Docker Desktop no disponible en el equipo de desarrollo (ver
-  `lab/docker/README.md`): el laboratorio Docker esta implementado pero su
-  ejecucion queda pendiente/bloqueada.
+- Docker Desktop no operativo en el equipo de desarrollo local (requiere
+  reiniciar Windows para activar WSL2, reinicio que se decidio no
+  realizar): el laboratorio Docker se ejecuta realmente en GitHub Actions
+  (runner `ubuntu-latest`, con Docker preinstalado) en vez de en el equipo
+  local (ver `lab/docker/README.md`).
 
 ## Riesgos
 
@@ -93,6 +95,9 @@ documentada, sin requerir credenciales cloud para su demostracion.
 ## Criterios de aceptacion
 
 Ver `docs/academic/plan-de-pruebas.md` (CP01-CP16): el proyecto se considera
-conforme cuando las pruebas ejecutables localmente (CP01-CP15, salvo las que
-dependen de Docker) pasan, y las que dependen de Docker quedan explicitamente
-marcadas como pendientes/bloqueadas, sin afirmarse como aprobadas.
+conforme cuando todas las pruebas (CP01-CP16) pasan con evidencia real, sin
+afirmarse como aprobadas pruebas que no se ejecutaron. Las pruebas que
+dependen de Docker (laboratorio de 2 sucursales, monitoreo local) se
+ejecutaron realmente en GitHub Actions en vez de en el equipo de desarrollo
+local (ver `docs/academic/plan-de-pruebas.md`, seccion "Laboratorio Docker —
+ejecucion real").

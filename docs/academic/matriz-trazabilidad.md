@@ -15,7 +15,7 @@
 | Sin secretos en el repositorio | `.gitignore`, `gitleaks`, verificacion adicional en CI | git, gitleaks, GitHub Actions | CP11 | `.github/workflows/terraform-security.yml` |
 | Deteccion de Infrastructure Drift | `lab/drift` (provider local) | Terraform, PowerShell | CP13, CP14 | `lab/drift/run_drift_demo.ps1`, `docs/evidence/drift/` |
 | Pipeline CI/CD comun AWS+GCP | `.github/workflows/terraform-ci.yml` | GitHub Actions | CP10 | Runs reales (fmt, validate, test, TFLint, Checkov, gitleaks, drift-check) en https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions |
-| Laboratorio local de 2 sucursales | `lab/docker` | Docker Compose | CP16 | `lab/docker/README.md` (pendiente: requiere Docker Desktop) |
+| Laboratorio local de 2 sucursales | `lab/docker` | Docker Compose, GitHub Actions (runner ubuntu-latest) | CP16 | Run real exitoso: https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions/runs/37832592874, `docs/evidence/docker-lab/` |
 
 > Esta matriz se actualiza al finalizar la implementacion (seccion 4 del
 > enunciado). Version vigente: ver fecha del ultimo commit que modifico este

@@ -15,10 +15,10 @@ Genera un archivo `.jsonl` en `docs/evidence/monitoring/` con, para cada
 iteracion: estado HTTP de los 4 servidores, estado de `healthcheck` de
 Docker y uso de CPU/memoria por contenedor (`docker stats`).
 
-## Dependencia de Docker
+## Ejecucion real: GitHub Actions (CI)
 
-Al igual que `lab/docker`, la ejecucion real de este script depende de
-Docker Desktop, no disponible en el equipo de desarrollo de este proyecto
-(ver `lab/docker/README.md`). El script esta implementado y probado
-sintacticamente; su ejecucion queda marcada como pendiente/bloqueada hasta
-contar con Docker, igual que CP16.
+Igual que `lab/docker`, este script se ejecuta realmente en
+`.github/workflows/docker-lab.yml` (runner `ubuntu-latest`, con el
+laboratorio Docker ya activo) en vez de en el equipo de desarrollo local
+(sin Docker Desktop operativo). La evidencia JSONL real se publica como
+artifact del workflow y se guarda en `docs/evidence/monitoring/`.

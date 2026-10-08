@@ -30,9 +30,10 @@ un JSONL de evidencia. Es la alternativa mas ligera que cumple los 5
 aspectos pedidos (metricas de contenedores, logs, health checks) sin exceder
 los recursos disponibles.
 
-## Limitacion documentada
+## Ejecucion real
 
-Al depender de Docker (no disponible en el equipo de desarrollo, ver
-`lab/docker/README.md`), la ejecucion real de `healthcheck_monitor.py` queda
-pendiente/bloqueada junto con el resto del laboratorio Docker. El script esta
-completo e implementado.
+El equipo de desarrollo local no tiene Docker Desktop operativo (ver
+`lab/docker/README.md`), por lo que `healthcheck_monitor.py` se ejecuta
+realmente en `.github/workflows/docker-lab.yml` (runner `ubuntu-latest`,
+con Docker preinstalado), con el laboratorio Docker ya activo. La evidencia
+JSONL real se publica como artifact del workflow.

@@ -12,22 +12,26 @@ sucursal-01-net          sucursal-02-net
   suc01-app01 (:8082)      suc02-app01 (:8092)
 ```
 
-## Requisito: Docker Desktop
+## Ejecucion real: GitHub Actions (CI)
 
-Este laboratorio requiere Docker Desktop (o Docker Engine + Compose v2). En
-el equipo donde se desarrollo este proyecto **Docker Desktop no estaba
-instalado** y no se instalo automaticamente porque requiere habilitar
-WSL2/Hyper-V (cambio critico de configuracion de Windows que el enunciado
-pide no realizar sin autorizacion explicita). Por lo tanto:
+El equipo de desarrollo local de este proyecto **no tiene Docker Desktop
+operativo** (instalado, pero sin poder iniciar: requiere activar WSL2, lo
+que a su vez requiere reiniciar Windows, reinicio que se decidio no
+realizar). En vez de simular resultados, el laboratorio se ejecuta
+**realmente** en `.github/workflows/docker-lab.yml`, sobre un runner
+`ubuntu-latest` de GitHub Actions (estos runners traen Docker Engine +
+Docker Compose preinstalados de fabrica).
 
-- El laboratorio esta **completo y listo para ejecutarse** (`docker-compose.yml`,
-  contenido HTML por servidor, scripts de inicio/prueba/limpieza).
-- Su ejecucion real queda marcada como **CP16 bloqueada / pendiente** en el
-  plan de pruebas (`docs/academic/plan-de-pruebas.md`) hasta que se instale
-  Docker Desktop en el equipo de ejecucion, siguiendo la seccion 21 del
-  enunciado ("no marques pruebas como aprobadas si no fueron ejecutadas").
+Resultado real (run
+[37832592874](https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions/runs/37832592874),
+36s, exitoso): los 4 contenedores llegaron a `healthy`, las 4 pruebas HTTP
+devolvieron `200`, la conectividad interna se confirmo en ambas sucursales,
+y el aislamiento de red se confirmo en ambas direcciones. Ver evidencia
+completa en `docs/evidence/docker-lab/` y el detalle en
+`docs/academic/plan-de-pruebas.md` (seccion "Laboratorio Docker — ejecucion
+real").
 
-## Ejecucion (una vez disponible Docker)
+## Ejecucion local (si tienes Docker Desktop disponible)
 
 ```powershell
 cd lab/docker
