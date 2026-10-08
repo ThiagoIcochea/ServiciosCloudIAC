@@ -14,7 +14,7 @@
 | Sin credenciales cloud | Modulos sin `data` sources que requieran API real; valores de ejemplo | Terraform | CP01, CP02, CP03 | `terraform validate` sin backend remoto |
 | Sin secretos en el repositorio | `.gitignore`, `gitleaks`, verificacion adicional en CI | git, gitleaks, GitHub Actions | CP11 | `.github/workflows/terraform-security.yml` |
 | Deteccion de Infrastructure Drift | `lab/drift` (provider local) | Terraform, PowerShell | CP13, CP14 | `lab/drift/run_drift_demo.ps1`, `docs/evidence/drift/` |
-| Pipeline CI/CD comun AWS+GCP | `.github/workflows/terraform-ci.yml` | GitHub Actions | CP10 | Ejecucion real del workflow (ver repositorio GitHub) |
+| Pipeline CI/CD comun AWS+GCP | `.github/workflows/terraform-ci.yml` | GitHub Actions | CP10 | Runs reales (fmt, validate, test, TFLint, Checkov, gitleaks, drift-check) en https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions |
 | Laboratorio local de 2 sucursales | `lab/docker` | Docker Compose | CP16 | `lab/docker/README.md` (pendiente: requiere Docker Desktop) |
 
 > Esta matriz se actualiza al finalizar la implementacion (seccion 4 del

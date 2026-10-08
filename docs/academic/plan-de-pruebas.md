@@ -112,9 +112,24 @@ Resultado esperado, Resultado obtenido, Estado, Evidencia.
   push.
 - **Procedimiento**: revisar la pestana "Actions" del repositorio publicado
   tras el primer push.
-- **Estado**: PENDIENTE hasta la publicacion autorizada del repositorio (ver
-  seccion 18 del enunciado). Se actualizara con el resultado real y un
-  enlace al run tras el push.
+- **Resultado obtenido**: tras el primer push, `Terraform CI` fallo (hallazgos
+  reales: `terraform fmt` sin aplicar en un archivo de prueba y 4
+  advertencias de TFLint en los modulos GCP — variables sin uso y una
+  interpolacion obsoleta). Se corrigieron los 3 modulos GCP afectados y se
+  volvio a hacer push; el nuevo run de `Terraform CI` paso exitosamente
+  (fmt, validate x3 entornos, esquema de 50 sucursales, terraform test 27/27,
+  TFLint). `Terraform Security` paso en ambos pushes. `drift-check.yml` se
+  disparo manualmente (`workflow_dispatch`) y fallo en su primera ejecucion
+  por el mismo problema de inicializacion de backend detectado localmente en
+  CP13 (`-backend=false` no inicializa el backend "local" declarado
+  explicitamente); corregido y re-ejecutado, el run confirma init, apply,
+  modificacion manual y deteccion de drift (`Plan: 1 to add`) reales en
+  GitHub Actions.
+- **Estado**: APROBADA.
+- **Evidencia**: runs reales en
+  https://github.com/ThiagoIcochea/ServiciosCloudIAC/actions
+  (`Terraform CI` run 37785036815, `Terraform Security` runs 37781765505 y
+  37785037002, `Drift Check` run 37786617247).
 
 ## CP11 — Verificacion de secretos
 
