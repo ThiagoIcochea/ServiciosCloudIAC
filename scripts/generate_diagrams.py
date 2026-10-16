@@ -31,18 +31,51 @@ WHITE = (255, 255, 255)
 BLUE = (40, 90, 160)
 GREEN = (46, 125, 50)
 
+# Factor de resolucion: los diagramas se dibujan en coordenadas "logicas" y se
+# guardan a SCALE veces su tamano, para que el texto se vea nitido en el
+# Word/PDF y al proyectarse (alta resolucion, ~300+ dpi a 6 pulgadas).
+SCALE = 3
+
 FONT_PATHS = {
-    "regular": r"C:\Windows\Fonts\segoeui.ttf",
-    "bold": r"C:\Windows\Fonts\segoeuib.ttf",
-    "mono": r"C:\Windows\Fonts\consola.ttf",
+    "regular": [r"C:\Windows\Fonts\segoeui.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
+    "bold": [r"C:\Windows\Fonts\segoeuib.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"],
+    "mono": [r"C:\Windows\Fonts\consola.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"],
 }
 
 
 def font(kind: str, size: int) -> ImageFont.FreeTypeFont:
-    path = FONT_PATHS.get(kind, FONT_PATHS["regular"])
-    if pathlib.Path(path).exists():
-        return ImageFont.truetype(path, size)
+    for path in FONT_PATHS.get(kind, FONT_PATHS["regular"]):
+        if pathlib.Path(path).exists():
+            f = ImageFont.truetype(path, size * SCALE)
+            f.logical_size = size
+            return f
     return ImageFont.load_default()
+
+
+def _sc(v):
+    if isinstance(v, (int, float)):
+        return v * SCALE
+    if isinstance(v, (list, tuple)):
+        return type(v)(_sc(x) for x in v)
+    return v
+
+
+class ScaledDraw:
+    """Envuelve ImageDraw: recibe coordenadas logicas y dibuja a SCALE x."""
+
+    def __init__(self, draw: ImageDraw.ImageDraw):
+        self._d = draw
+
+    def __getattr__(self, name):
+        fn = getattr(self._d, name)
+
+        def wrapper(xy, *args, **kwargs):
+            for k in ("radius", "width"):
+                if k in kwargs:
+                    kwargs[k] = kwargs[k] * SCALE
+            return fn(_sc(xy), *args, **kwargs)
+
+        return wrapper
 
 
 def draw_box(draw: ImageDraw.ImageDraw, xy, label, fill=WHITE, outline=BLACK,
@@ -53,7 +86,7 @@ def draw_box(draw: ImageDraw.ImageDraw, xy, label, fill=WHITE, outline=BLACK,
     lines = []
     for raw_line in label.split("\n"):
         lines.extend(textwrap.wrap(raw_line, width=wrap) or [""])
-    line_h = f.size + 4
+    line_h = getattr(f, "logical_size", f.size) + 4
     total_h = line_h * len(lines)
     ty = (y0 + y1) / 2 - total_h / 2
     for line in lines:
@@ -61,7 +94,7 @@ def draw_box(draw: ImageDraw.ImageDraw, xy, label, fill=WHITE, outline=BLACK,
         ty += line_h
 
 
-def draw_arrow(draw: ImageDraw.ImageDraw, p0, p1, color=DARK_GRAY, width=2, label=None, f=None):
+def draw_arrow(draw: ImageDraw.ImageDraw, p0, p1, color=DARK_GRAY, width=2, label=None, f=None, label_dx=0):
     import math
 
     draw.line([p0, p1], fill=color, width=width)
@@ -76,7 +109,7 @@ def draw_arrow(draw: ImageDraw.ImageDraw, p0, p1, color=DARK_GRAY, width=2, labe
     if label:
         f = f or font("regular", 12)
         mx, my = (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2
-        draw.text((mx, my - 10), label, fill=color, font=f, anchor="mm")
+        draw.multiline_text((mx + label_dx, my - 10), label, fill=color, font=f, anchor="mm", align="center")
 
 
 def draw_frame(draw, xy, label, outline=BLACK, fill=WHITE, f=None):
@@ -90,8 +123,8 @@ def draw_frame(draw, xy, label, outline=BLACK, fill=WHITE, f=None):
 
 
 def new_canvas(w, h, title):
-    img = Image.new("RGB", (w, h), WHITE)
-    d = ImageDraw.Draw(img)
+    img = Image.new("RGB", (w * SCALE, h * SCALE), WHITE)
+    d = ScaledDraw(ImageDraw.Draw(img))
     d.rectangle([0, 0, w, 50], fill=RED)
     d.text((w / 2, 25), title, fill=WHITE, font=font("bold", 20), anchor="mm")
     return img, d
@@ -117,13 +150,13 @@ def fig_overview():
     draw_box(d, (90, 310, 480, 420),
              "modules/aws/*\nnetwork -> security -> compute -> monitoring\n(VPC, SG, EC2, CloudWatch)",
              fill=(255, 235, 235), f=f_box, wrap=40)
-    draw_arrow(d, (480, 230), (480, 310), label="provider == aws")
+    draw_arrow(d, (480, 250), (480, 310), label="provider == aws", label_dx=-62)
 
     # GCP branch
     draw_box(d, (620, 310, 1010, 420),
              "modules/gcp/*\nnetwork -> security -> compute -> monitoring\n(VPC Network, Firewall, Compute Engine, Cloud Monitoring)",
              fill=(230, 240, 255), f=f_box, wrap=40)
-    draw_arrow(d, (620, 230), (620, 310), label="provider == gcp")
+    draw_arrow(d, (620, 250), (620, 310), label="provider == gcp", label_dx=62)
 
     draw_box(d, (90, 470, 480, 540), "25 sucursales AWS\n(sa-east-1)", fill=WHITE, f=f_box)
     draw_arrow(d, (285, 420), (285, 470))
@@ -162,13 +195,13 @@ def fig_aws():
 
     draw_box(d, (500, 260, 680, 330), "aws_instance\nweb-XXX", f=f)
     draw_box(d, (720, 260, 900, 330), "aws_instance\napp-XXX", f=f)
-    draw_arrow(d, (420, 300), (500, 295))
-    draw_arrow(d, (420, 300), (720, 295))
+    draw_arrow(d, (420, 295), (500, 295))
+    draw_arrow(d, (680, 295), (720, 295))
     draw_arrow(d, (260, 210), (260, 250))
 
     draw_box(d, (330, 440, 670, 520), "aws_cloudwatch_log_group\n+ metric_alarm (CPU) por servidor", fill=(225, 240, 255), f=f, wrap=36)
-    draw_arrow(d, (590, 330), (550, 440), label="metricas")
-    draw_arrow(d, (810, 330), (600, 440), label="metricas")
+    draw_arrow(d, (590, 330), (550, 440), label="metricas", label_dx=-38)
+    draw_arrow(d, (810, 330), (600, 440), label="metricas", label_dx=58)
 
     img.save(OUT_DIR / "fig-02-arquitectura-aws.png")
 
@@ -195,13 +228,13 @@ def fig_gcp():
 
     draw_box(d, (500, 260, 680, 330), "google_compute_instance\nweb-XXX", f=f, wrap=24)
     draw_box(d, (720, 260, 900, 330), "google_compute_instance\napp-XXX", f=f, wrap=24)
-    draw_arrow(d, (420, 300), (500, 295))
-    draw_arrow(d, (420, 300), (720, 295))
+    draw_arrow(d, (420, 295), (500, 295))
+    draw_arrow(d, (680, 295), (720, 295))
     draw_arrow(d, (260, 210), (260, 250))
 
     draw_box(d, (330, 440, 670, 520), "google_monitoring_alert_policy\nCPU > 80%", fill=(220, 245, 220), f=f, wrap=30)
-    draw_arrow(d, (590, 330), (550, 440), label="metricas")
-    draw_arrow(d, (810, 330), (600, 440), label="metricas")
+    draw_arrow(d, (590, 330), (550, 440), label="metricas", label_dx=-38)
+    draw_arrow(d, (810, 330), (600, 440), label="metricas", label_dx=58)
 
     img.save(OUT_DIR / "fig-03-arquitectura-gcp.png")
 
@@ -226,7 +259,6 @@ def fig_modules():
     draw_box(d, (80, 460, 460, 520), "config/branches/branches.yaml\n(fuente de verdad, 50 sucursales)", f=f, wrap=36, fill=LIGHT_GRAY)
     draw_arrow(d, (270, 400), (270, 460))
     draw_box(d, (590, 460, 970, 520), "scripts/generate_branches.py\n(genera branches.yaml, determinista)", f=f, wrap=36, fill=LIGHT_GRAY)
-    draw_arrow(d, (780, 520), (780, 490))
     draw_arrow(d, (590, 490), (460, 490))
 
     img.save(OUT_DIR / "fig-04-estructura-modulos.png")
@@ -237,21 +269,21 @@ def fig_modules():
 # ---------------------------------------------------------------------------
 
 def fig_cicd():
-    img, d = new_canvas(1100, 500, "Figura 5. Flujo CI/CD (comun AWS + GCP)")
+    img, d = new_canvas(1180, 500, "Figura 5. Flujo CI/CD (comun AWS + GCP)")
     f = font("regular", 12)
     steps = [
         "git push /\nPull Request",
         "terraform fmt\n-check",
         "terraform init\n-backend=false\n(x3 entornos)",
         "terraform\nvalidate",
-        "validate_branches\n_schema.py",
+        "validate_\nbranches_\nschema.py",
         "terraform test\n(mock_provider)",
         "TFLint",
         "Checkov +\ngitleaks",
     ]
-    x = 40
+    x = 25
     y = 120
-    w, h = 120, 90
+    w, h = 126, 90
     gap = 15
     centers = []
     for i, s in enumerate(steps):
@@ -261,11 +293,11 @@ def fig_cicd():
             draw_arrow(d, (centers[i - 1][0], y + h / 2), (x, y + h / 2))
         x += w + gap
 
-    draw_box(d, (330, 260, 650, 340), "Revision humana via\nPull Request (checklist)", fill=(255, 244, 230), f=f, wrap=30)
-    draw_arrow(d, (700, 210), (560, 260))
+    draw_box(d, (400, 260, 720, 340), "Revision humana via\nPull Request (checklist)", fill=(255, 244, 230), f=f, wrap=30)
+    draw_arrow(d, (774, 210), (640, 260))
 
-    draw_box(d, (330, 380, 650, 460), "Merge a main ->\nDespliegue autorizado\n(documentado, NO ejecutado:\nsin credenciales cloud)", fill=(255, 235, 235), f=f, wrap=34)
-    draw_arrow(d, (490, 340), (490, 380))
+    draw_box(d, (400, 380, 720, 460), "Merge a main ->\nDespliegue autorizado\n(documentado, NO ejecutado:\nsin credenciales cloud)", fill=(255, 235, 235), f=f, wrap=34)
+    draw_arrow(d, (560, 340), (560, 380))
 
     img.save(OUT_DIR / "fig-05-flujo-cicd.png")
 
@@ -286,7 +318,7 @@ def fig_state():
     draw_box(d, (330, 280, 720, 400), "Laboratorio local (lo que se ejecuta)\nbackend \"local\" + hashicorp/local + hashicorp/random\n"
               "init -> apply -> state list/show -> modificar -> plan -> apply -> destroy",
               fill=LIGHT_GRAY, f=f, wrap=46)
-    draw_arrow(d, (270, 200), (450, 280), label="mismo mecanismo,\notro backend")
+    draw_arrow(d, (270, 200), (450, 280), label="mismo mecanismo,\notro backend", label_dx=-120)
     draw_arrow(d, (780, 200), (600, 280))
 
     draw_box(d, (330, 460, 720, 540), "terraform.tfstate NUNCA se versiona\n(.gitignore); riesgo: contiene datos sensibles en texto plano",
@@ -339,12 +371,12 @@ def fig_docker_lab():
     draw_frame(d, (70, 100, 470, 420), "sucursal-01-net", fill=(255, 245, 235), outline=RED)
     draw_box(d, (120, 170, 420, 260), "suc01-web01\nnginx:alpine - :8081", f=f, wrap=26)
     draw_box(d, (120, 300, 420, 390), "suc01-app01\nnginx:alpine - :8082", f=f, wrap=26)
-    draw_arrow(d, (270, 260), (270, 300), label="conectividad\ninterna")
+    draw_arrow(d, (270, 260), (270, 300), label="conectividad\ninterna", label_dx=78)
 
     draw_frame(d, (530, 100, 930, 420), "sucursal-02-net", fill=(235, 245, 255), outline=BLUE)
     draw_box(d, (580, 170, 880, 260), "suc02-web01\nnginx:alpine - :8091", f=f, wrap=26)
     draw_box(d, (580, 300, 880, 390), "suc02-app01\nnginx:alpine - :8092", f=f, wrap=26)
-    draw_arrow(d, (730, 260), (730, 300), label="conectividad\ninterna")
+    draw_arrow(d, (730, 260), (730, 300), label="conectividad\ninterna", label_dx=78)
 
     d.line([470, 260, 530, 260], fill=RED, width=2)
     d.text((500, 245), "X", fill=RED, font=font("bold", 16), anchor="mm")

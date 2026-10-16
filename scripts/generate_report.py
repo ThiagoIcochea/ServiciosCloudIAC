@@ -14,7 +14,8 @@ Reutiliza:
     docs/academic/*.md (via scripts/md_to_docx.py).
   - Los 8 diagramas generados en docs/diagrams/ (scripts/generate_diagrams.py)
     y las capturas reales de ejecucion en docs/evidence/screenshots/
-    (scripts/render_terminal_screenshot.py).
+    (scripts/render_terminal_screenshot.py, regeneradas en alta resolucion con
+    scripts/render_evidence_screenshots.py).
 
 Salida: docs/academic/Informe-IaC-50-Sucursales.docx
 
@@ -416,14 +417,14 @@ recursos creados por sucursal.
     doc.add_heading("11. INFRASTRUCTURE DRIFT", level=1)
     add_markdown(doc, read("../lab/drift/README.md"), skip_first_h1=True)
     add_figure(doc, DIAGRAMS / "fig-07-procedimiento-drift.png", "Figura 7. Procedimiento de Infrastructure Drift.")
-    add_figure(doc, SCREENSHOTS / "fig-drift-deteccion.png", "Figura 9a. Evidencia real: detección de drift (terraform plan).")
+    add_figure(doc, SCREENSHOTS / "fig-drift-deteccion.png", "Figura 9a. Evidencia real: detección de drift (terraform plan).", width_inches=5.2)
     add_figure(doc, SCREENSHOTS / "fig-drift-reconciliacion.png", "Figura 9b. Evidencia real: verificación tras la reconciliación.")
 
     # 12. PRUEBAS LOCALES -------------------------------------------------
     doc.add_heading("12. PRUEBAS LOCALES", level=1)
     add_markdown(doc, read("academic/plan-de-pruebas.md"), skip_first_h1=True)
     add_figure(doc, SCREENSHOTS / "fig-terraform-validate.png", "Figura 9c. Evidencia real: terraform validate en los 3 entornos.")
-    add_figure(doc, SCREENSHOTS / "fig-terraform-test.png", "Figura 9d. Evidencia real: terraform test (27 passed, 0 failed).")
+    add_figure(doc, SCREENSHOTS / "fig-terraform-test.png", "Figura 9d. Evidencia real: terraform test (27 passed, 0 failed).", width_inches=4.6)
     add_figure(doc, SCREENSHOTS / "fig-scalability-validation.png", "Figura 9e. Evidencia real: validación de las 50 sucursales.")
     add_figure(doc, DIAGRAMS / "fig-08-laboratorio-docker.png", "Figura 8. Arquitectura del laboratorio local (Docker).")
     add_figure(doc, SCREENSHOTS / "fig-docker-lab.png", "Figura 9f. Evidencia real: laboratorio Docker ejecutado en GitHub Actions (4 contenedores healthy, HTTP 200, conectividad interna y aislamiento de red confirmados).")

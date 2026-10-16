@@ -25,6 +25,7 @@ FONT_CANDIDATES = [
     r"C:\Windows\Fonts\consola.ttf",
     r"C:\Windows\Fonts\cascadiamono.ttf",
     r"C:\Windows\Fonts\lucon.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
 ]
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
@@ -69,7 +70,10 @@ def main() -> int:
     parser.add_argument("--title", default="PowerShell")
     parser.add_argument("--max-lines", type=int, default=50)
     parser.add_argument("--font-size", type=int, default=15)
+    parser.add_argument("--scale", type=int, default=3,
+                        help="Factor de resolucion (3 = texto nitido en Word/PDF y proyector)")
     args = parser.parse_args()
+    S = args.scale
 
     raw = args.input_log.read_text(encoding="utf-8", errors="replace")
     lines = [strip_ansi(l).rstrip() for l in raw.splitlines() if strip_ansi(l).strip() != ""]
@@ -78,12 +82,13 @@ def main() -> int:
         lines = lines[: args.max_lines]
         lines.append(f"... ({skipped} lineas adicionales omitidas en esta figura; ver log completo en docs/evidence/)")
 
-    font = load_font(args.font_size)
-    line_height = int(args.font_size * 1.45)
-    padding = 20
-    titlebar_h = 34
+    font = load_font(args.font_size * S)
+    line_height = int(args.font_size * 1.45) * S
+    padding = 20 * S
+    titlebar_h = 34 * S
     max_chars = max((len(l) for l in lines), default=80)
-    width = max(900, min(1500, padding * 2 + int(max_chars * args.font_size * 0.62)))
+    char_w = font.getlength("M") if hasattr(font, "getlength") else args.font_size * S * 0.62
+    width = max(900 * S, int(padding * 2 + max_chars * char_w))
     height = titlebar_h + padding * 2 + line_height * len(lines)
 
     img = Image.new("RGB", (width, height), BG)
@@ -91,8 +96,8 @@ def main() -> int:
 
     draw.rectangle([0, 0, width, titlebar_h], fill=TITLEBAR)
     for i, color in enumerate([DOT_RED, DOT_YELLOW, DOT_GREEN]):
-        cx = 18 + i * 20
-        draw.ellipse([cx - 6, titlebar_h // 2 - 6, cx + 6, titlebar_h // 2 + 6], fill=color)
+        cx = (18 + i * 20) * S
+        draw.ellipse([cx - 6 * S, titlebar_h // 2 - 6 * S, cx + 6 * S, titlebar_h // 2 + 6 * S], fill=color)
     draw.text((width / 2, titlebar_h / 2), args.title, fill=(139, 148, 158), font=font, anchor="mm")
 
     y = titlebar_h + padding
