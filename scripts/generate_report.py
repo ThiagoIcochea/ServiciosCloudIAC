@@ -48,7 +48,6 @@ INTEGRANTES = [
     "Icochea Rodriguez, Thiago Paolo",
     "Gonzales Aguilar, Carlos Enrique Giussepe",
     "Huamani Pereira, Eddyson Cesar",
-    "Torres Centeno, Emmanuel Misael",
     "Remuzgo Tovar, Huber Eduardo",
     "Quispe Saavedra, Karen Meylin",
 ]
@@ -519,8 +518,12 @@ el despliegue real en el futuro").
    bases de datos gestionadas) a los módulos.
 """)
 
-    # 17. REFERENCIAS BIBLIOGRAFICAS -------------------------------------------------
-    doc.add_heading("17. REFERENCIAS BIBLIOGRÁFICAS", level=1)
+    # 17. REPARTICION DE TAREAS -------------------------------------------------
+    doc.add_heading("17. REPARTICIÓN DE TAREAS", level=1)
+    add_markdown(doc, read("academic/reparticion-tareas.md"), skip_first_h1=True)
+
+    # 18. REFERENCIAS BIBLIOGRAFICAS -------------------------------------------------
+    doc.add_heading("18. REFERENCIAS BIBLIOGRÁFICAS", level=1)
     refs = [
         'HashiCorp, "What is Infrastructure as Code with Terraform?," HashiCorp Developer. [Online]. Available: https://developer.hashicorp.com/terraform/intro. [Accessed: Oct. 2026].',
         'HashiCorp, "Terraform Language Documentation," HashiCorp Developer. [Online]. Available: https://developer.hashicorp.com/terraform/language. [Accessed: Oct. 2026].',
@@ -542,8 +545,8 @@ el despliegue real en el futuro").
         p.paragraph_format.first_line_indent = Pt(-18)
         p.add_run(f"[{i}] {ref}")
 
-    # 18. ANEXOS -------------------------------------------------
-    doc.add_heading("18. ANEXOS", level=1)
+    # 19. ANEXOS -------------------------------------------------
+    doc.add_heading("19. ANEXOS", level=1)
     add_markdown(doc, """
 ## Anexo A — Comandos principales
 

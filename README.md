@@ -111,6 +111,7 @@ para un despliegue futuro con credenciales reales**.
 | [`docs/academic/analisis-requisitos.md`](docs/academic/analisis-requisitos.md) | Requisitos funcionales/no funcionales, riesgos, supuestos |
 | [`docs/academic/matriz-trazabilidad.md`](docs/academic/matriz-trazabilidad.md) | Matriz requisito -> solucion -> herramienta -> prueba -> evidencia |
 | [`docs/academic/plan-de-pruebas.md`](docs/academic/plan-de-pruebas.md) | CP01-CP16 con resultados reales |
+| [`docs/academic/reparticion-tareas.md`](docs/academic/reparticion-tareas.md) | Reparticion de tareas por integrante |
 | [`docs/user-guide/README.md`](docs/user-guide/README.md) | Guia de ejecucion local paso a paso |
 
 El informe academico formal (Word/PDF, formato IEEE) esta en
@@ -119,10 +120,18 @@ El informe academico formal (Word/PDF, formato IEEE) esta en
 ## Autores
 
 Universidad Tecnologica del Peru — Curso Servicios Cloud.
+Docente: Eleodoro Orbegoso Carrera.
 
-Integrantes: Icochea Rodriguez, Thiago Paolo; Gonzales Aguilar, Carlos
-Enrique Giussepe; Huamani Pereira, Eddyson Cesar; Torres Centeno, Emmanuel
-Misael; Remuzgo Tovar, Huber Eduardo; Quispe Saavedra, Karen Meylin.
+| Integrante | Rol | Responsabilidad principal |
+|---|---|---|
+| Icochea Rodriguez, Thiago Paolo | Coordinador y arquitecto | Arquitectura, `branch-stack`, `branches.yaml`, entornos, repositorio |
+| Gonzales Aguilar, Carlos Enrique Giussepe | Infraestructura AWS | Modulos `aws/*` y sus pruebas |
+| Huamani Pereira, Eddyson Cesar | Infraestructura GCP | Modulos `gcp/*` y sus pruebas |
+| Remuzgo Tovar, Huber Eduardo | CI/CD y seguridad | Workflows, TFLint, Checkov, gitleaks, laboratorio Docker |
+| Quispe Saavedra, Karen Meylin | State, Drift y pruebas | Laboratorios State/Drift, monitoreo, plan de pruebas y evidencias |
+
+Detalle completo de tareas por integrante en
+[`docs/academic/reparticion-tareas.md`](docs/academic/reparticion-tareas.md).
 
 ## Licencia
 
